@@ -1,5 +1,6 @@
-import Footer from "@/pages/Footer"
-import Header from "@/pages/Header"
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
+import "./globals.css"
 
 export const metadata = {
   title: 'Next.js',
@@ -13,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-white">
         <Header />
         <main>{children}</main>
         <Footer />
