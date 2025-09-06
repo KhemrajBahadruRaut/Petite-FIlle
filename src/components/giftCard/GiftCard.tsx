@@ -9,7 +9,7 @@ const GiftCard = () => {
           <img
             src="/giftcard/giftcard.webp"
             alt="eGift Card"
-            className="h-auto  rounded-lg pt-30"
+            className="h-auto rounded-lg pt-15 "
           />
         </div>
 
@@ -25,10 +25,7 @@ const GiftCard = () => {
           <button className="px-6 py-2 border border-gray-800 text-gray-800 rounded hover:bg-gray-100 transition">
             Purchase now &rarr;
           </button>
-        </div>
-
-        {/* Decorative Background Flowers */}
-       
+        </div>       
       </div>
     </div>
   );

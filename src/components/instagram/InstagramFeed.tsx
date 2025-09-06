@@ -3,13 +3,13 @@ import React from "react";
 const InstagramFeed = () => {
   const images: string[] = [
     // replace with your images
-    "https://source.unsplash.com/400x400/?coffee,1",
-    "https://source.unsplash.com/400x400/?brunch,2",
-    "https://source.unsplash.com/400x400/?dessert,3",
-    "https://source.unsplash.com/400x400/?food,4",
-    "https://source.unsplash.com/400x400/?drink,5",
-    "https://source.unsplash.com/400x400/?cake,6",
-    "https://source.unsplash.com/400x400/?pizza,7",
+    // "https://source.unsplash.com/400x400/?coffee,1",
+    // "https://source.unsplash.com/400x400/?brunch,2",
+    // "https://source.unsplash.com/400x400/?dessert,3",
+    // "https://source.unsplash.com/400x400/?food,4",
+    // "https://source.unsplash.com/400x400/?drink,5",
+    // "https://source.unsplash.com/400x400/?cake,6",
+    // "https://source.unsplash.com/400x400/?pizza,7",
   ];
 
   const doubled = [...images, ...images];

@@ -29,7 +29,7 @@ const WhatWeOffer = () => {
   ];
 
   return (
-    <div className="bg-[#f8f5ef]">
+    <div className="bg-[#f8f5ef] py-10">
 
     <section className="w-full  py-16 px-6 md:px-12 lg:px-20 container mx-auto">
       {/* Heading */}
