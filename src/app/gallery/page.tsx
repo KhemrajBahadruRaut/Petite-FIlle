@@ -24,8 +24,8 @@ export default function Gallery() {
     <div className="bg-white">
 
     <section className="py-12 px-4 container mx-auto">
-      <h2 className="text-3xl font-bold text-center text-gray-700 mb-2">Gallery</h2>
-      <p className="text-center text-gray-500 mb-8">
+      <h2 className="text-3xl font-bold text-center text-gray-700 mb-2 " style={{fontFamily: 'fairplaybold'}}>Gallery</h2>
+      <p className="text-center text-gray-500 mb-8" style={{fontFamily: 'arial'}}>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique cupiditate <br />
         necessitatibus, autem rerum temporibus.
       </p>

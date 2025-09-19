@@ -184,17 +184,17 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     }
   };
 
-  const incrementQuantity = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setQuantity(prev => prev + 1);
-  };
+  // const incrementQuantity = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   setQuantity(prev => prev + 1);
+  // };
 
-  const decrementQuantity = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (quantity > 1) {
-      setQuantity(prev => prev - 1);
-    }
-  };
+  // const decrementQuantity = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   if (quantity > 1) {
+  //     setQuantity(prev => prev - 1);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col items-center text-center group cursor-pointer">
@@ -281,11 +281,11 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
       {/* Product details */}
       <div className="mt-4 space-y-2">
-        <h3 className="text-lg font-medium text-gray-800 group-hover:text-amber-600 transition-colors duration-200">
+        <h3 className="text-lg font-medium text-gray-800 group-hover:text-amber-600 transition-colors duration-200" style={{fontFamily: 'fairplay'}}>
           {product.title}
         </h3>
-        <p className="text-sm text-gray-700">{product.description}</p>
-        <span className="text-base font-medium text-gray-500">
+        <p className="text-sm text-gray-700" style={{fontFamily: 'arial'}}>{product.description}</p>
+        <span className="text-base font-medium text-gray-500" style={{fontFamily: 'arial'}}>
           {product.priceDisplay}
         </span>
         
@@ -320,15 +320,15 @@ export default function Merchendise() {
       <section className="w-full container mx-auto bg-white py-12 px-6 lg:px-20 flex flex-col md:flex-row items-center justify-between sm:gap-10">
         {/* Left Section */}
         <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl md:text-4xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold text-gray-800 mb-4 " style={{fontFamily: 'fairplaybold'}}>
             Petite fille Merch
           </h2>
-          <p className="text-gray-600 mb-6 max-w-md">
+          <p className="text-gray-600 mb-6 max-w-md" style={{fontFamily: 'arial'}}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
           <div className="flex justify-center md:justify-start">
-            <button className="px-6 py-3 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 transition flex items-center gap-2">
+            <button className="px-6 py-3 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 transition flex items-center gap-2" style={{fontFamily: 'arial'}}>
               Take a look at our merch →
             </button>
           </div>
@@ -383,21 +383,21 @@ export default function Merchendise() {
 
       {/* Sections */}
       <section className="w-full bg-white py-12 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-500">
+        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" style={{fontFamily: 'fairplaybold'}}>
           Mugs and Cups
         </h2>
         <ProductGrid items={mugs} />
       </section>
 
       <section className="w-full bg-white py-12 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-500">
+        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" style={{fontFamily: 'fairplaybold'}}>
           Scented Candles
         </h2>
         <ProductGrid items={candles} />
       </section>
 
       <section className="w-full bg-white py-12 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-500">
+        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" style={{fontFamily: 'fairplaybold'}}>
           Tote Bags
         </h2>
         <ProductGrid items={totes} />

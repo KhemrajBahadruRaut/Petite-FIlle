@@ -168,7 +168,13 @@ const sideItems: SideItem[] = [
   { id: 'side-3', name: 'Smoked Salmon / Prosciutto', price: 7.5 },
   { id: 'side-4', name: 'Eggs Benedict', price: 2 },
   { id: 'side-5', name: 'Triple Cheese Brioche', price: 3 },
-  { id: 'side-6', name: 'Smoked Salmon', price: 5 }
+  { id: 'side-6', name: 'Smoked Salmon', price: 5 },
+  { id: 'side-7', name: 'Smoked Salmon', price: 2 },
+  { id: 'side-8', name: 'Smoked Salmon', price: 3 },
+  { id: 'side-9', name: 'Smoked Salmon', price: 6 },
+  { id: 'side-10', name: 'Smoked Salmon', price: 3 },
+  { id: 'side-11', name: 'Smoked Salmon', price: 4 },
+  { id: 'side-12', name: 'Smoked Salmon', price: 5 }
 ];
 
 // Enhanced Menu Item Card Component with cart integration
@@ -177,14 +183,14 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
   const [quantity, setQuantity] = useState(1);
   const [showQuantityControls, setShowQuantityControls] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
-  
+
   // Connect to cart context
   const { addToCart, addToFavorites, removeFromFavorites, isFavorite } = useCart();
   const isItemFavorite = isFavorite(item.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     try {
       // Add item to cart using context
       addToCart({
@@ -195,13 +201,13 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
         image: item.image,
         alt: item.alt
       }, quantity);
-      
+
       // Show success message
       setShowAddedMessage(true);
       setTimeout(() => setShowAddedMessage(false), 2000);
-      
+
       console.log(`Added ${quantity} x ${item.name} to cart`);
-      
+
       // Reset quantity to 1 after adding
       setQuantity(1);
     } catch (error) {
@@ -226,17 +232,17 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
     }
   };
 
-  const incrementQuantity = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setQuantity(prev => prev + 1);
-  };
+  // const incrementQuantity = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   setQuantity(prev => prev + 1);
+  // };
 
-  const decrementQuantity = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (quantity > 1) {
-      setQuantity(prev => prev - 1);
-    }
-  };
+  // const decrementQuantity = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   if (quantity > 1) {
+  //     setQuantity(prev => prev - 1);
+  //   }
+  // };
 
   return (
     <div className="group cursor-pointer transition-all duration-300 hover:scale-[1.02] ">
@@ -260,7 +266,8 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <p className="text-xs text-gray-500 font-medium">{item.name}</p>
+              <p className="text-xs text-gray-500 font-medium"
+              >{item.name}</p>
             </div>
           </div>
         )}
@@ -273,12 +280,11 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
                    hover:bg-white hover:scale-110 shadow-md z-10"
           aria-label={isItemFavorite ? "Remove from favorites" : "Add to favorites"}
         >
-          <Heart 
-            className={`w-4 h-4 transition-all duration-300 ${
-              isItemFavorite 
-                ? 'text-red-500 fill-red-500 scale-110' 
-                : 'text-gray-600 hover:text-red-500'
-            }`}
+          <Heart
+            className={`w-4 h-4 transition-all duration-300 ${isItemFavorite
+              ? 'text-red-500 fill-red-500 scale-110'
+              : 'text-gray-600 hover:text-red-500'
+              }`}
           />
         </button>
 
@@ -323,9 +329,13 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
       </div>
 
       {/* Item details */}
-      <div className="space-y-2">
+      <div className="space-y-2"
+        style={{ fontFamily: 'arial' }}
+
+      >
         <div className="flex justify-between items-start">
-          <h3 className="font-semibold text-gray-800 text-sm leading-tight group-hover:text-amber-600 transition-colors duration-200">
+          <h3 className="font-semibold text-gray-800 text-sm leading-tight group-hover:text-amber-600 transition-colors duration-200"
+          >
             {item.name}
           </h3>
           <span className="font-bold text-gray-900 text-sm ml-2 flex-shrink-0">
@@ -335,7 +345,7 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
         <p className="text-xs text-gray-600 leading-relaxed">
           {item.description}
         </p>
-        
+
         {/* Added to cart message */}
         {showAddedMessage && (
           <div className="text-center">
@@ -351,20 +361,20 @@ const MenuItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
 
 // Enhanced Sides Item Card Component with cart integration
 const SideItemCard: React.FC<{ item: SideItem }> = ({ item }) => {
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    addToCart({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      description: 'Side dish',
-      image: '/gallery/default-side.webp', // You can add a default image for sides
-      alt: item.name
-    }, 1);
-    console.log(`Added ${item.name} to cart`);
-  };
+  // const handleAddToCart = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   addToCart({
+  //     id: item.id,
+  //     name: item.name,
+  //     price: item.price,
+  //     description: 'Side dish',
+  //     image: '/gallery/default-side.webp', 
+  //     alt: item.name
+  //   }, 1);
+  //   console.log(`Added ${item.name} to cart`);
+  // };
 
   return (
     <div className="flex justify-between items-center py-2 hover:bg-amber-50/50 px-2 rounded transition-colors duration-200 group">
@@ -396,7 +406,9 @@ const MenuSection: React.FC<{
 }> = ({ title, items, showViewAll = true }) => (
   <section className="py-12 px-6 max-w-7xl mx-auto">
     <div className="flex justify-between items-center mb-8">
-      <h2 className="text-3xl font-light text-gray-800 tracking-wide">
+      <h2 className="text-3xl font-light text-gray-800 tracking-wide"
+        style={{ fontFamily: 'fairplay' }}
+      >
         {title}
       </h2>
       {showViewAll && (
@@ -417,10 +429,10 @@ const MenuSection: React.FC<{
 // Updated Sides Section Component with cart integration
 const SidesSection: React.FC = () => (
   <section className="py-12 px-6 max-w-7xl mx-auto">
-    <h2 className="text-3xl font-light text-gray-800 tracking-wide mb-8">
+    <h2 className="text-3xl font-light text-gray-800 tracking-wide mb-8" style={{ fontFamily: 'fairplay' }}>
       Sides
     </h2>
-    <div className="grid md:grid-cols-2 gap-x-12 gap-y-2 max-w-4xl">
+    <div className="grid md:grid-cols-2 gap-x-12 gap-y-2 max-w-7xl">
       {sideItems.map((item) => (
         <SideItemCard key={item.id} item={item} />
       ))}
@@ -431,7 +443,7 @@ const SidesSection: React.FC = () => (
 // Main Menu Component
 const RestaurantMenu: React.FC = () => {
   return (
-    <div className="bg-gradient-to-b from-amber-50 to-stone-100 min-h-screen">
+    <div className="bg-gradient-to-b from-amber-50 to-stone-100 ">
       {/* Add MenuCarousel component here if you have it */}
       <MenuCarousel />
 
@@ -439,13 +451,17 @@ const RestaurantMenu: React.FC = () => {
       <MenuSection title="Breakfast" items={breakfastItems} />
 
       {/* Lunch Section */}
-      <MenuSection title="Lunch" items={lunchItems} />
+      <div className='bg-[#F5F1E8]'>
+        <MenuSection title="Lunch" items={lunchItems} />
+      </div>
 
       {/* Pastries Section */}
       <MenuSection title="Pastries / Bakery items" items={pastryItems} />
 
       {/* Coffee Section */}
-      <MenuSection title="Coffee" items={coffeeItems} />
+      <div className='bg-[#F5F1E8]'>
+        <MenuSection title="Coffee" items={coffeeItems} />
+      </div>
 
       {/* Sides Section */}
       <SidesSection />

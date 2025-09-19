@@ -33,7 +33,7 @@ const WhatWeOffer = () => {
   ];
 
   return (
-    <div className="bg-[#f8f5ef] py-10">
+    <div className="bg-[#F5F1E8] py-10">
       <section className="w-full  py-16 px-6 md:px-12 lg:px-20 container mx-auto">
         {/* Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12">
@@ -43,6 +43,8 @@ const WhatWeOffer = () => {
             transition={{ duration: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             className="text-3xl md:text-4xl font-semibold mb-4 text-gray-700"
+                        style={{fontFamily: 'fairplaybold'}}
+
           >
             A Taste of What We Offer
           </motion.h2>
@@ -52,6 +54,8 @@ const WhatWeOffer = () => {
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 1 }}
             viewport={{ once: true, amount: 0.3 }}
+                        style={{fontFamily: 'arial'}}
+
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor. ipsum dolor sit amet, piscin elit, sed do eiusmod
@@ -68,7 +72,8 @@ const WhatWeOffer = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {items.map((item, i) => (
-              <div key={i} className="flex flex-col group">
+              <div key={i} className="flex flex-col group"
+              style={{fontFamily: 'arial'}}>
                 {/* Image Wrapper with Hover */}
                 <div className="overflow-hidden">
                   <Image
@@ -90,8 +95,11 @@ const WhatWeOffer = () => {
 
           {/* CTA Button */}
           <div className="flex justify-center">
-            <button className="px-6 py-3 border border-gray-700 rounded-md text-gray-800 hover:bg-gray-100 transition">
-              <Link href="/menu">
+            <button className="px-6 py-3 border text-xl border-gray-700 rounded-md text-gray-800 hover:bg-gray-100 transition">
+              <Link href="/menu"
+                          style={{fontFamily: 'fairplay'}}
+
+              >
               Take a look at our menu →
               </Link>
             </button>

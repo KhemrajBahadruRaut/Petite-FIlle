@@ -51,14 +51,14 @@ const Page = () => {
   return (
     <section className="py-12 bg-white text-center">
       {/* Heading */}
-      <h2 className="text-3xl font-serif text-gray-800">Catering</h2>
+      <h2 className="text-5xl  text-gray-800" style={{fontFamily: 'fairplay'}}>Catering</h2>
       <p className="mt-2 text-gray-600 max-w-xl mx-auto">
         From your daily ritual to your special events, we bring quality and care
         to every cup and every plate.
       </p>
 
       {/* Carousel Heading */}
-      <h3 className="mt-10 text-2xl font-serif text-gray-700 mb-5">
+      <h3 className="mt-10 text-2xl font-serif text-gray-700 mb-5" style={{fontFamily: 'fairplay'}}>
         Choose from our packages
       </h3>
 
@@ -79,19 +79,19 @@ const Page = () => {
 
             {/* Text */}
             <div className="w-full md:w-1/2 text-left md:text-center">
-              <h4 className="text-2xl font-serif text-gray-800 mb-2">
+              <h4 className="text-2xl font-serif text-gray-800 mb-2" style={{fontFamily: 'fairplay'}}>
                 “{packages[current].title}”
               </h4>
-              <p className="text-gray-600 italic mb-4">
+              <p className="text-gray-600 italic mb-4" style={{fontFamily: 'arial'}}>
                 {packages[current].desc}
               </p>
-              <p className="text-gray-800 mb-4">
+              <p className="text-gray-800 mb-4" style={{fontFamily: 'arial'}}>
                 Starting at{" "}
                 <span className="font-semibold text-lg">
                   {packages[current].price}
                 </span>
               </p>
-              <button className="px-6 py-2 border text-gray-700 border-gray-700 rounded-lg hover:bg-gray-100 transition">
+              <button className="px-6 py-2 border text-gray-700 border-gray-700 rounded-lg hover:bg-gray-100 transition" style={{fontFamily: 'arial'}}>
                 Select This Package
               </button>
             </div>
@@ -127,30 +127,30 @@ const Page = () => {
                     priority
                   />
                 </div>
-        <h3 className="text-2xl font-serif text-gray-800">
+        <h3 className="text-2xl font-serif text-gray-800" style={{fontFamily: 'fairplay'}}>
           We Cater to Your Unique Taste.
         </h3>
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-gray-600" style={{fontFamily: 'fairplay'}} >
           Love our packages but want to tweak them? Or have something entirely
           different in mind? Create the perfect menu for your event with our
           easy <strong>Build Your Own</strong> tool.
         </p>
         <div className="mt-6 flex justify-center">
-          <button className="px-4 flex items-center hover:bg-yellow-700 hover:text-white transition-all duration-100 text-yellow-800 gap-3 py-1 border border-yellow-900 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-900">
+          <button className="px-4 flex items-center hover:bg-yellow-700 hover:text-white transition-all duration-100 text-yellow-800 gap-3 py-1 border border-yellow-900 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-900" style={{fontFamily: 'arial'}}>
             Build your own <span > <BiRightArrow/> </span>
           </button>
         </div>
-        <p className="mt-2 text-sm text-yellow-700">
+        <p className="mt-2 text-sm text-yellow-700" style={{fontFamily: 'arial'}}>
           Make sure your order is at least 48 hours before the event
         </p>
       </div>
 
       {/* --- Extra Section 2: Contact --- */}
       <div className="mt-20 bg-[#F5F1E8] py-12 px-6 text-center rounded-lg">
-        <h3 className="text-2xl font-serif text-gray-800 mb-4">
+        <h3 className="text-2xl font-serif text-gray-800 mb-4" style={{fontFamily: 'fairplay'}}>
           Not Sure Where to Start?
         </h3>
-        <p className="text-gray-600 max-w-xl mx-auto">
+        <p className="text-gray-600 max-w-xl mx-auto" style={{fontFamily: 'fairplay'}}>
           Our catering manager is always happy to help. Get in touch for
           personal advice.
         </p>

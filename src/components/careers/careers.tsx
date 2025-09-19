@@ -222,7 +222,7 @@ export default function CareersPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className=" bg-gray-50">
             <div>
                 <CareersCarousal />
             </div>
@@ -239,7 +239,7 @@ export default function CareersPage() {
                         dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                     </p>
 
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl text-gray-900" style={{fontFamily: 'fairplay'}}>
                         Why work with us?
                     </h1>
                 </div>
@@ -271,11 +271,11 @@ export default function CareersPage() {
             {/* Current Openings Section */}
             <section className="py-12 sm:py-16 lg:py-20 bg-gray-50" aria-labelledby="openings-heading">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 id="openings-heading" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 text-center mb-12 sm:mb-16">
+                    <h2 id="openings-heading" className="text-3xl sm:text-4xl lg:text-5xl text-gray-900 text-center mb-12 sm:mb-16" style={{fontFamily: 'fairplay'}}>
                         Current Openings
                     </h2>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8" style={{fontFamily: 'arial'}}>
                         {/* Job Listings */}
                         <div className="lg:col-span-2 bg-white rounded-lg shadow-sm overflow-hidden">
                             <div className="divide-y divide-gray-200">
@@ -315,7 +315,9 @@ export default function CareersPage() {
             {/* Contact Section */}
             <section className="bg-white py-8 sm:py-12" aria-labelledby="contact-heading">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <p className="text-gray-600 text-sm sm:text-base">
+                    <p className="text-gray-600 text-sm sm:text-base"
+                        style={{fontFamily: 'arial'}}
+                     >
                         <span className="text-yellow-500 font-medium">Don't see any post for you?</span>{' '}
                         Email your resume to{' '}
                         <a

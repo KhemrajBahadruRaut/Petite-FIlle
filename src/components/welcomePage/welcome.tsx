@@ -7,8 +7,9 @@ const Welcome = () => {
     <div className="bg-white py-10">
       <section className="w-full bg-white py-12 px-6 md:px-16 container mx-auto">
         {/* Heading */}
-        <div className="text-center mb-10 text-gray-700">
-          <h2 className="text-xl md:text-2xl font-semibold">
+        <div className="text-center mb-10 text-gray-700"                       
+        style={{fontFamily: 'fairplaybold'}}>
+          <h2 className="text-xl md:text-2xl font-semibold" >
             Welcome to Petite Fille
           </h2>
           <h3 className="text-2xl md:text-3xl font-bold mt-2">
@@ -35,7 +36,8 @@ const Welcome = () => {
           {/* Text Section */}
           <div className="text-center space-y-4 px-2 z-9">
             <div className="text-gray-700">
-              <p className="mt-4 text-lg">
+              <p className="mt-4 text-2xl "
+              style={{fontFamily: 'fairplay'}}>
                 We are now open everyday
                 <br />
                 <span className="block mt-1">
@@ -43,7 +45,9 @@ const Welcome = () => {
                 </span>
               </p>
             </div>
-            <div className="pt-10 flex-col px-1 space-y-4">
+            <div className="pt-10 flex-col px-1 space-y-4"
+            style={{fontFamily: 'arial'}}
+            >
               <p className="text-gray-700 text-center">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

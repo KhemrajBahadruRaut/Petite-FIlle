@@ -138,7 +138,9 @@ const ContactForm = () => {
     return (
         <>
             <ContactsCarousel />
-            <div className=" bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
+            <div className=" bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4"
+            style={{fontFamily: 'arial'}}
+            >
                 <div className="p-8 max-w-xl w-full">
                     <div className="text-center mb-8">
                         <h1 className="text-xl font-bold text-gray-800 mb-2">

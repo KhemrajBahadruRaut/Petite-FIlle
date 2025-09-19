@@ -408,7 +408,7 @@ export default function ReservationPage() {
               <textarea
                 id="request"
                 placeholder="Specify your requests..."
-                className="w-full text-gray-900 rounded-md dark:text-gray-100 border focus:outline-none border-yellow-500 p-2 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                className="w-full text-gray-900 rounded-md border focus:outline-none border-yellow-500 p-2 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
               />
             </div>
             <nav className="flex justify-between mt-6">
@@ -469,7 +469,7 @@ export default function ReservationPage() {
                 <span className="font-medium text-gray-600">Seating:</span>
                 <span className="text-gray-400">{reservationData.seating}</span>
               </div>
-              <hr className="my-3" />
+              <hr className="my-3 text-gray-400" />
               <div className="flex justify-between text-lg font-semibold">
                 <span className="text-gray-900">Total Fee:</span>
                 <span className="text-gray-900">${totalFee}</span>

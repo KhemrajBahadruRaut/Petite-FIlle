@@ -4,7 +4,9 @@ import { FaPaperPlane, FaPhoneAlt, FaEnvelope, FaUserFriends } from "react-icons
 
 const Footer = () => {
   return (
-    <footer className="bg-[#7B4A2E] text-white py-5 px-6 md:px-16">
+    <footer className="bg-[#7B4A2E] text-white py-5 px-6 md:px-16"
+          style={{fontFamily: 'arial'}}
+    >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mx-auto container">
         {/* Logo + Description */}
         <div>
@@ -28,8 +30,8 @@ const Footer = () => {
 
         {/* Contacts */}
         <div>
-          <h3 className="font-semibold mb-4 underline">Contacts</h3>
-          <ul className="space-y-3 text-sm">
+          <h3 className="font-semibold mb-4 border-b inline py-1">Contacts</h3>
+          <ul className="space-y-3 text-sm pt-3">
             <li className="flex items-center gap-2">
               <FaPaperPlane /> Lorem ipsum dolor, sit amet, cons adipiscing eli
             </li>
@@ -50,8 +52,8 @@ const Footer = () => {
 
         {/* Navigation */}
         <div>
-          <h3 className="font-semibold mb-4 underline">Navigation</h3>
-          <ul className="space-y-3 text-sm">
+          <h3 className="font-semibold mb-4 border-b inline py-1">Navigation</h3>
+          <ul className="space-y-3 text-sm pt-4">
             <li><a href="#" className="hover:text-gray-200">Home</a></li>
             <li><a href="#" className="hover:text-gray-200">About us</a></li>
             <li><a href="#" className="hover:text-gray-200">Menu</a></li>
@@ -64,8 +66,8 @@ const Footer = () => {
 
         {/* Additionals */}
         <div>
-          <h3 className="font-semibold mb-4 underline">Additionals</h3>
-          <ul className="space-y-3 text-sm">
+          <h3 className="font-semibold mb-4 border-b inline py-1 ">Additionals</h3>
+          <ul className="space-y-3 text-sm pt-4">
             <li><a href="#" className="hover:text-gray-200">Terms of Service</a></li>
             <li><a href="#" className="hover:text-gray-200">Privacy policy</a></li>
             <li><a href="#" className="hover:text-gray-200">Terms and conditions</a></li>

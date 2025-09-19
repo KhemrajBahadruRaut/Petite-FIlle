@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-
+import "../globals.css"
 const fadeIn = {
   initial: { opacity: 0 },
   whileInView: { opacity: 1 },
@@ -35,10 +35,14 @@ export default function AboutUs() {
 
         {/* Title */}
         <div className="text-center mb-10 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-gray-600 mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-600 mb-4"
+            style={{ fontFamily: 'fairplaybold' }}
+          >
             About us
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
+          <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base"
+            style={{ fontFamily: 'arial' }}
+          >
             Lorem ipsum dolor sit amet, consectetur adipis scing elit sed do
             eiusmod tempor incididunt
           </p>
@@ -47,8 +51,11 @@ export default function AboutUs() {
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-start relative">
           {/* Left text */}
-          <div className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-6 md:pt-20 text-sm sm:text-base">
-            <p>
+          <div className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-6 md:pt-20 text-sm sm:text-base"
+            style={{ fontFamily: 'arial' }}
+          >
+            <p
+            >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -148,7 +155,8 @@ export default function AboutUs() {
           </div>
 
           {/* Right text */}
-          <div className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-16 sm:pt-2 md:pt-20 text-sm sm:text-base">
+          <div className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-16 sm:pt-2 md:pt-20 text-sm sm:text-base"
+                  style={{ fontFamily: 'arial' }}>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

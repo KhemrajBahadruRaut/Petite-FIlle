@@ -69,6 +69,8 @@ export default function MainPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             className="hidden md:flex flex-wrap gap-14 justify-center w-full py-6"
+            style={{fontFamily: 'fairplay'}}
+
           >
             <Link href="/reservation">
               <button className={`${buttonBase} ${bookTableBtn}`}>
