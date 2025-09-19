@@ -1,18 +1,66 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { ShoppingCart, Heart, Plus, Minus } from 'lucide-react';
+import { ShoppingCart, Heart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContexts';
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Product {
-  id: string; // Changed to string for consistency with cart system
+  id: string;
   title: string;
   description: string;
-  price: number; // Changed to number for cart calculations
-  priceDisplay: string; // Keep display string for showing AUD
+  price: number;
+  priceDisplay: string;
   image: string;
-  category: 'merchandise'; // Add category to distinguish from food
+  category: 'merchandise';
 }
+
+// Fixed Animation variants with proper TypeScript types
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+} as const; // Add 'as const' to fix TypeScript issues
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+} as const;
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+} as const;
+
+const slideInFromRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut"
+    }
+  }
+} as const;
 
 // Different datasets for each section
 const mugs: Product[] = [
@@ -138,13 +186,13 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [showQuantityControls, setShowQuantityControls] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
-  
+
   const { addToCart, addToFavorites, removeFromFavorites, isFavorite } = useCart();
   const isItemFavorite = isFavorite(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     try {
       addToCart({
         id: product.id,
@@ -153,12 +201,12 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         description: product.description,
         image: product.image,
         alt: product.title,
-        category: product.category // Add category to cart item
+        category: product.category
       }, quantity);
-      
+
       setShowAddedMessage(true);
       setTimeout(() => setShowAddedMessage(false), 2000);
-      
+
       console.log(`Added ${quantity} x ${product.title} to cart`);
       setQuantity(1);
     } catch (error) {
@@ -184,33 +232,40 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     }
   };
 
-  // const incrementQuantity = (e: React.MouseEvent) => {
-  //   e.stopPropagation();
-  //   setQuantity(prev => prev + 1);
-  // };
-
-  // const decrementQuantity = (e: React.MouseEvent) => {
-  //   e.stopPropagation();
-  //   if (quantity > 1) {
-  //     setQuantity(prev => prev - 1);
-  //   }
-  // };
-
   return (
-    <div className="flex flex-col items-center text-center group cursor-pointer">
-      <div className="relative w-full max-w-sm aspect-square overflow-hidden shadow-md">
+    <motion.div 
+      className="flex flex-col items-center text-center group cursor-pointer"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={fadeInUp}
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="relative w-full max-w-sm aspect-square overflow-hidden shadow-md rounded-lg">
         {/* Image or placeholder */}
         {!imageError ? (
-          <Image
-            src={product.image}
-            alt={product.title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:brightness-75"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            onError={() => setImageError(true)}
-          />
+          <motion.div 
+            className="relative w-full h-full"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Image
+              src={product.image}
+              alt={product.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:brightness-75"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              onError={() => setImageError(true)}
+            />
+          </motion.div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+          <motion.div 
+            className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="text-center p-4">
               <div className="w-16 h-16 mx-auto mb-3 bg-gray-300 rounded-full flex items-center justify-center">
                 <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,97 +274,107 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
               </div>
               <p className="text-xs text-gray-500 font-medium">{product.title}</p>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Favorite button - top right */}
-        <button
+        <motion.button
           onClick={handleToggleFavorite}
           className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 
                    flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 
-                   hover:bg-white hover:scale-110 shadow-md z-10"
+                   hover:bg-white shadow-md z-10"
           aria-label={isItemFavorite ? "Remove from favorites" : "Add to favorites"}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <Heart 
-            className={`w-4 h-4 transition-all duration-300 ${
-              isItemFavorite 
-                ? 'text-red-500 fill-red-500 scale-110' 
+          <Heart
+            className={`w-4 h-4 transition-all duration-300 ${isItemFavorite
+                ? 'text-red-500 fill-red-500'
                 : 'text-gray-600 hover:text-red-500'
-            }`}
+              }`}
           />
-        </button>
+        </motion.button>
 
         {/* Hover overlay with actions */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex flex-col items-center gap-3">
-            {/* Quantity controls */}
-            {/* <div 
-              className={`flex items-center gap-2 bg-white/95 backdrop-blur-sm rounded-full px-3 py-2 shadow-lg transition-all duration-300 ${
-                showQuantityControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-              }`}
-            >
-              <button
-                onClick={decrementQuantity}
-                disabled={quantity <= 1}
-                className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors duration-200"
-              >
-                <Minus className="w-3 h-3" />
-              </button>
-              <span className="font-medium text-sm min-w-[20px] text-center">{quantity}</span>
-              <button
-                onClick={incrementQuantity}
-                className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors duration-200"
-              >
-                <Plus className="w-3 h-3" />
-              </button>
-            </div> */}
-
+        <motion.div 
+          className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+        >
+          <motion.div 
+            className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex flex-col items-center gap-3"
+            initial={{ y: 20 }}
+            whileHover={{ y: 0 }}
+          >
             {/* Add to cart button */}
-            <button
+            <motion.button
               onClick={handleAddToCart}
               onMouseEnter={() => setShowQuantityControls(true)}
               onMouseLeave={() => setShowQuantityControls(false)}
               className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-medium text-sm 
-                       flex items-center gap-2 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
+                       flex items-center gap-2 shadow-lg transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <ShoppingCart className="w-4 h-4" />
               Add to Cart
-            </button>
-          </div>
-        </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Product details */}
-      <div className="mt-4 space-y-2">
-        <h3 className="text-lg font-medium text-gray-800 group-hover:text-amber-600 transition-colors duration-200" style={{fontFamily: 'fairplay'}}>
+      <motion.div 
+        className="mt-4 space-y-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <h3 className="text-lg font-medium text-gray-800 group-hover:text-amber-600 transition-colors duration-200" style={{ fontFamily: 'fairplay' }}>
           {product.title}
         </h3>
-        <p className="text-sm text-gray-700" style={{fontFamily: 'arial'}}>{product.description}</p>
-        <span className="text-base font-medium text-gray-500" style={{fontFamily: 'arial'}}>
+        <p className="text-sm text-gray-700" style={{ fontFamily: 'arial' }}>{product.description}</p>
+        <span className="text-base font-medium text-gray-500" style={{ fontFamily: 'arial' }}>
           {product.priceDisplay}
         </span>
-        
+
         {/* Added to cart message */}
-        {showAddedMessage && (
-          <div className="text-center">
-            <span className="inline-block bg-green-500 text-white text-xs px-3 py-1 rounded-full animate-pulse">
-              ✓ Added to cart!
-            </span>
-          </div>
-        )}
-      </div>
-    </div>
+        <AnimatePresence>
+          {showAddedMessage && (
+            <motion.div 
+              className="text-center mt-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <span className="inline-block bg-green-500 text-white text-xs px-3 py-1 rounded-full">
+                ✓ Added to cart!
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 };
 
 // Reusable grid component
 function ProductGrid({ items }: { items: Product[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      {items.map((product) => (
-        <ProductCard key={product.id} product={product} />
+    <motion.div 
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+    >
+      {items.map((product, index) => (
+        <motion.div key={product.id} variants={fadeInUp}>
+          <ProductCard product={product} />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
@@ -319,89 +384,217 @@ export default function Merchendise() {
       {/* Hero Section */}
       <section className="w-full container mx-auto bg-white py-12 px-6 lg:px-20 flex flex-col md:flex-row items-center justify-between sm:gap-10">
         {/* Left Section */}
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl md:text-5xl font-semibold text-gray-800 mb-4 " style={{fontFamily: 'fairplaybold'}}>
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+          className="flex-1 text-center md:text-left"
+        >
+          <motion.h2
+            className="text-3xl md:text-5xl font-semibold text-gray-800 mb-4"
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Petite fille Merch
-          </h2>
-          <p className="text-gray-600 mb-6 max-w-md" style={{fontFamily: 'arial'}}>
+          </motion.h2>
+          <motion.p 
+            className="text-gray-600 mb-6 max-w-md" 
+            style={{ fontFamily: 'arial' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-          <div className="flex justify-center md:justify-start">
-            <button className="px-6 py-3 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 transition flex items-center gap-2" style={{fontFamily: 'arial'}}>
+          </motion.p>
+          <motion.div 
+            className="flex justify-center md:justify-start"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <motion.button 
+              className="px-6 py-3 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 transition flex items-center gap-2" 
+              style={{ fontFamily: 'arial' }}
+              whileHover={{ x: 5 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
               Take a look at our merch →
-            </button>
-          </div>
-        </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
 
         {/* Right Section - Collage */}
-        <div className="hidden md:flex flex-1 relative w-full max-w-lg h-[500px]">
+        <motion.div 
+          className="hidden md:flex flex-1 relative w-full max-w-lg h-[500px]"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {/* Background decorative squares */}
-          <div className="absolute top-15 left-14 w-43 h-48 border-2 border-amber-400"></div>
-          <div className="absolute bottom-30 right-14 w-43 h-48 border-2 border-amber-400"></div>
-          <div className="absolute bottom-20 left-5 w-32 h-24 border-2 border-amber-400"></div>
-          <div className="absolute top-0 right-12 w-28 h-25 border-2 border-amber-400"></div>
+          <motion.div 
+            className="absolute top-14 left-14 w-40 h-48 border-2 border-amber-400"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            viewport={{ once: true }}
+          />
+          <motion.div 
+            className="absolute bottom-28 right-14 w-40 h-48 border-2 border-amber-400"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            viewport={{ once: true }}
+          />
+          <motion.div 
+            className="absolute bottom-20 left-5 w-32 h-24 border-2 border-amber-400"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            viewport={{ once: true }}
+          />
+          <motion.div 
+            className="absolute top-0 right-12 w-28 h-24 border-2 border-amber-400"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            viewport={{ once: true }}
+          />
 
           {/* Product Images */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-50">
+          <motion.div
+            className="absolute top-5 left-1/2 -translate-x-1/2 w-40 h-48"
+            initial={{ opacity: 0, y: -20, rotate: -5 }}
+            whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+            transition={{ delay: 0.9, duration: 0.6 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -5, rotate: -2, transition: { duration: 0.3 } }}
+          >
             <Image
               src="/merchendise/merch1.webp"
               alt="T-Shirts"
               fill
               className="object-cover shadow-md"
             />
-          </div>
+          </motion.div>
 
-          <div className="absolute top-28 left-0 w-40 h-50">
+          <motion.div
+            className="absolute top-28 left-0 w-40 h-48"
+            initial={{ opacity: 0, x: -20, rotate: 5 }}
+            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+            transition={{ delay: 1.0, duration: 0.6 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -5, rotate: 2, transition: { duration: 0.3 } }}
+          >
             <Image
               src="/merchendise/coffee.webp"
               alt="Coffee Bag"
               fill
               className="object-cover shadow-md"
             />
-          </div>
+          </motion.div>
 
-          <div className="absolute top-55 left-1/2 -translate-x-1/2 w-40 h-50">
+          <motion.div
+            className="absolute top-58 left-1/2 -translate-x-1/2 w-40 h-48"
+            initial={{ opacity: 0, y: 20, rotate: 5 }}
+            whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+            transition={{ delay: 1.1, duration: 0.6 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -5, rotate: -2, transition: { duration: 0.3 } }}
+          >
             <Image
               src="/merchendise/bag1.webp"
               alt="Tote Bag"
               fill
               className="object-cover shadow-md"
             />
-          </div>
+          </motion.div>
 
-          <div className="absolute top-28 right-0 w-40 h-50">
+          <motion.div
+            className="absolute top-28 right-0 w-40 h-48"
+            initial={{ opacity: 0, x: 20, rotate: -5 }}
+            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -5, rotate: 2, transition: { duration: 0.3 } }}
+          >
             <Image
               src="/merchendise/cup2.webp"
               alt="Mugs"
               fill
               className="object-cover shadow-md"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Sections */}
-      <section className="w-full bg-white py-12 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" style={{fontFamily: 'fairplaybold'}}>
+      <motion.section 
+        className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <motion.h2
+          className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+          style={{ fontFamily: 'fairplaybold' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           Mugs and Cups
-        </h2>
+        </motion.h2>
         <ProductGrid items={mugs} />
-      </section>
+      </motion.section>
 
-      <section className="w-full bg-white py-12 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" style={{fontFamily: 'fairplaybold'}}>
+      <motion.section 
+        className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <motion.h2
+          className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+          style={{ fontFamily: 'fairplaybold' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           Scented Candles
-        </h2>
+        </motion.h2>
         <ProductGrid items={candles} />
-      </section>
+      </motion.section>
 
-      <section className="w-full bg-white py-12 px-6 md:px-12 lg:px-20">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" style={{fontFamily: 'fairplaybold'}}>
+      <motion.section 
+        className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <motion.h2
+          className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+          style={{ fontFamily: 'fairplaybold' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           Tote Bags
-        </h2>
+        </motion.h2>
         <ProductGrid items={totes} />
-      </section>
+      </motion.section>
     </div>
   );
 }

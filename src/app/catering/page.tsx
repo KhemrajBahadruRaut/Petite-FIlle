@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BiRightArrow } from "react-icons/bi";
 import Link from "next/link";
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Package {
   id: number;
@@ -11,6 +12,38 @@ interface Package {
   title: string;
   desc: string;
   price: string;
+}
+
+// Define proper TypeScript types for animation variants
+interface AnimationVariant {
+  hidden: {
+    opacity: number;
+    y?: number;
+    x?: number;
+    scale?: number;
+  };
+  visible: {
+    opacity: number;
+    y?: number;
+    x?: number;
+    scale?: number;
+    transition: {
+      duration: number;
+      ease?: string;
+      staggerChildren?: number;
+      delayChildren?: number;
+    };
+  };
+  exit?: {
+    opacity: number;
+    y?: number;
+    x?: number;
+    scale?: number;
+    transition: {
+      duration: number;
+      ease?: string;
+    };
+  };
 }
 
 const packages: Package[] = [
@@ -37,6 +70,60 @@ const packages: Package[] = [
   },
 ];
 
+// Animation variants with proper TypeScript types
+const fadeIn: AnimationVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const slideInLeft: AnimationVariant = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.7, ease: "easeOut" }
+  }
+};
+
+const slideInRight: AnimationVariant = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.7, ease: "easeOut" }
+  }
+};
+
+const carouselItem: AnimationVariant = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" }
+  },
+  exit: { 
+    opacity: 0, 
+    scale: 1.1,
+    transition: { duration: 0.4, ease: "easeIn" }
+  }
+};
+
+const staggerContainer: AnimationVariant = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.15,
+      delayChildren: 0.2
+    }
+  }
+};
+
 const Page = () => {
   const [current, setCurrent] = useState(0);
 
@@ -49,104 +136,197 @@ const Page = () => {
   };
 
   return (
-    <section className="py-12 bg-white text-center">
+    <section className="py-12 bg-white text-center overflow-hidden">
       {/* Heading */}
-      <h2 className="text-5xl  text-gray-800" style={{fontFamily: 'fairplay'}}>Catering</h2>
-      <p className="mt-2 text-gray-600 max-w-xl mx-auto">
-        From your daily ritual to your special events, we bring quality and care
-        to every cup and every plate.
-      </p>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer as any}
+        className="mb-16"
+      >
+        <motion.h2 
+          variants={fadeIn as any}
+          className="text-5xl text-gray-800 mb-4" 
+          style={{fontFamily: 'fairplay'}}
+        >
+          Catering
+        </motion.h2>
+        <motion.p
+          variants={fadeIn as any}
+          className="mt-2 text-gray-600 max-w-xl mx-auto"
+        >
+          From your daily ritual to your special events, we bring quality and care
+          to every cup and every plate.
+        </motion.p>
+      </motion.div>
 
       {/* Carousel Heading */}
-      <h3 className="mt-10 text-2xl font-serif text-gray-700 mb-5" style={{fontFamily: 'fairplay'}}>
+      <motion.h3 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeIn as any}
+        className="mt-10 text-2xl font-serif text-gray-700 mb-5" 
+        style={{fontFamily: 'fairplay'}}
+      >
         Choose from our packages
-      </h3>
+      </motion.h3>
 
       {/* Carousel */}
-      <div className="bg-[#F8F3EA] border ">
-        <div className="relative max-w-5xl mx-auto ">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-8  transition-all duration-500">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeIn as any}
+        className="bg-[#F8F3EA] border rounded-lg overflow-hidden"
+      >
+        <div className="relative max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-8">
             {/* Image */}
-            <div className="w-full md:w-1/2  ">
-              <Image
-                src={packages[current].image}
-                alt={packages[current].title}
-                width={500}
-                height={350}
-                className=" w-full h-60 object-cover rounded-3xl"
-              />
+            <div className="w-full md:w-1/2 overflow-hidden rounded-3xl">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={current}
+                  variants={carouselItem as any}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="w-full"
+                >
+                  <Image
+                    src={packages[current].image}
+                    alt={packages[current].title}
+                    width={500}
+                    height={350}
+                    className="w-full h-60 object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Text */}
             <div className="w-full md:w-1/2 text-left md:text-center">
-              <h4 className="text-2xl font-serif text-gray-800 mb-2" style={{fontFamily: 'fairplay'}}>
-                “{packages[current].title}”
-              </h4>
-              <p className="text-gray-600 italic mb-4" style={{fontFamily: 'arial'}}>
-                {packages[current].desc}
-              </p>
-              <p className="text-gray-800 mb-4" style={{fontFamily: 'arial'}}>
-                Starting at{" "}
-                <span className="font-semibold text-lg">
-                  {packages[current].price}
-                </span>
-              </p>
-              <button className="px-6 py-2 border text-gray-700 border-gray-700 rounded-lg hover:bg-gray-100 transition" style={{fontFamily: 'arial'}}>
-                Select This Package
-              </button>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={current}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h4 className="text-2xl font-serif text-gray-800 mb-2" style={{fontFamily: 'fairplay'}}>
+                    &ldquo;{packages[current].title}&rdquo;
+                  </h4>
+                  <p className="text-gray-600 italic mb-4" style={{fontFamily: 'arial'}}>
+                    {packages[current].desc}
+                  </p>
+                  <p className="text-gray-800 mb-4" style={{fontFamily: 'arial'}}>
+                    Starting at{" "}
+                    <span className="font-semibold text-lg">
+                      {packages[current].price}
+                    </span>
+                  </p>
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-2 border text-gray-700 border-gray-700 rounded-lg hover:bg-gray-100 transition" 
+                    style={{fontFamily: 'arial'}}
+                  >
+                    Select This Package
+                  </motion.button>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
 
           {/* Arrows */}
-          <button
+          <motion.button
             onClick={prevSlide}
             aria-label="Previous"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-gray-50"
           >
             <ChevronLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={nextSlide}
             aria-label="Next"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-gray-50"
           >
             <ChevronRight className="w-5 h-5 text-gray-700" />
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
       {/* --- Extra Section 1: Build Your Own --- */}
-      <div className="mt-20 px-6 max-w-3xl mx-auto text-center relative">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer as any}
+        className="mt-20 px-6 max-w-3xl mx-auto text-center relative"
+      >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 pointer-events-none">
-                  <Image
-                    src="/mainimage/main-image.webp"
-                    alt=""
-                    width={500}
-                    height={450}
-                    className="opacity-30 object-contain"
-                    priority
-                  />
-                </div>
-        <h3 className="text-2xl font-serif text-gray-800" style={{fontFamily: 'fairplay'}}>
+          <Image
+            src="/mainimage/main-image.webp"
+            alt=""
+            width={500}
+            height={450}
+            className="opacity-30 object-contain"
+            priority
+          />
+        </div>
+        <motion.h3 
+          variants={fadeIn as any}
+          className="text-2xl font-serif text-gray-800 mb-4" 
+          style={{fontFamily: 'fairplay'}}
+        >
           We Cater to Your Unique Taste.
-        </h3>
-        <p className="mt-3 text-gray-600" style={{fontFamily: 'fairplay'}} >
+        </motion.h3>
+        <motion.p
+          variants={fadeIn as any}
+          className="mt-3 text-gray-600" 
+          style={{fontFamily: 'fairplay'}}
+        >
           Love our packages but want to tweak them? Or have something entirely
           different in mind? Create the perfect menu for your event with our
           easy <strong>Build Your Own</strong> tool.
-        </p>
-        <div className="mt-6 flex justify-center">
-          <button className="px-4 flex items-center hover:bg-yellow-700 hover:text-white transition-all duration-100 text-yellow-800 gap-3 py-1 border border-yellow-900 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-900" style={{fontFamily: 'arial'}}>
-            Build your own <span > <BiRightArrow/> </span>
-          </button>
-        </div>
-        <p className="mt-2 text-sm text-yellow-700" style={{fontFamily: 'arial'}}>
+        </motion.p>
+        <motion.div 
+          variants={fadeIn as any}
+          className="mt-6 flex justify-center"
+        >
+          <motion.button
+            whileHover={{ scale: 1.05, backgroundColor: "#6B5A3C", color: "white" }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            className="px-4 flex items-center text-yellow-800 gap-3 py-2 border border-yellow-900 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-900" 
+            style={{fontFamily: 'arial'}}
+          >
+            Build your own <BiRightArrow />
+          </motion.button>
+        </motion.div>
+        <motion.p 
+          variants={fadeIn as any}
+          className="mt-2 text-sm text-yellow-700" 
+          style={{fontFamily: 'arial'}}
+        >
           Make sure your order is at least 48 hours before the event
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
       {/* --- Extra Section 2: Contact --- */}
-      <div className="mt-20 bg-[#F5F1E8] py-12 px-6 text-center rounded-lg">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeIn as any}
+        className="mt-20 bg-[#F5F1E8] py-12 px-6 text-center rounded-lg"
+      >
         <h3 className="text-2xl font-serif text-gray-800 mb-4" style={{fontFamily: 'fairplay'}}>
           Not Sure Where to Start?
         </h3>
@@ -154,12 +334,16 @@ const Page = () => {
           Our catering manager is always happy to help. Get in touch for
           personal advice.
         </p>
-        <button className="mt-6 px-6 py-2 bg-yellow-800 text-white rounded-md hover:bg-gray-800 transition">
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="mt-6 px-6 py-2 bg-yellow-800 text-white rounded-md hover:bg-gray-800 transition"
+        >
           <Link href="/contacts">
-          Contact us
+            Contact us
           </Link>
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
     </section>
   );
 };
