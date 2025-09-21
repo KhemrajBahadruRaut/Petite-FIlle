@@ -123,7 +123,7 @@ const ContactForm = () => {
                         </svg>
                     </div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Message Sent!</h2>
-                    <p className="text-gray-600 mb-6">Thank you for reaching out. We'll respond promptly.</p>
+                    <p className="text-gray-600 mb-6">Thank you for reaching out. We will respond promptly.</p>
                     <button
                         onClick={() => setIsSubmitted(false)}
                         className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
@@ -144,7 +144,7 @@ const ContactForm = () => {
                 <div className="p-8 max-w-xl w-full">
                     <div className="text-center mb-8">
                         <h1 className="text-xl font-bold text-gray-800 mb-2">
-                            Send us a message and we'll respond promptly.
+                            Send us a message and we will respond promptly.
                         </h1>
                     </div>
 

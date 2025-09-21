@@ -431,7 +431,7 @@ export default function CareersPage() {
                     <p className="text-gray-600 text-sm sm:text-base"
                         style={{fontFamily: 'arial'}}
                      >
-                        <span className="text-[#EEC27E] font-medium">Don't see any post for you?</span>{' '}
+                        <span className="text-[#EEC27E] font-medium">Don`&apos;`t see any post for you?</span>{' '}
                         Email your resume to{' '}
                         <a
                             href="mailto:abc@example.com"

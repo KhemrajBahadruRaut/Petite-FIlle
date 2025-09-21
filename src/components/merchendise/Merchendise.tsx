@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { ShoppingCart, Heart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContexts';
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,30 +38,6 @@ const staggerContainer = {
   }
 } as const;
 
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut"
-    }
-  }
-} as const;
-
-const slideInFromRight = {
-  hidden: { opacity: 0, x: 50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut"
-    }
-  }
-} as const;
-
 // Different datasets for each section
 const mugs: Product[] = [
   {
@@ -70,7 +46,8 @@ const mugs: Product[] = [
     description: "Perfect for hot drinks | Stylish and durable",
     price: 24.00,
     priceDisplay: "$24.00 AUD",
-    image: "/merchendise/cup1.webp",
+        image: "/merchendise/cup3.webp",
+
     category: 'merchandise',
   },
   {
@@ -79,7 +56,8 @@ const mugs: Product[] = [
     description: "Set of two mugs | Minimalist design",
     price: 29.00,
     priceDisplay: "$29.00 AUD",
-    image: "/merchendise/cup2.webp",
+        image: "/merchendise/cup1.webp",
+
     category: 'merchandise',
   },
   {
@@ -88,7 +66,7 @@ const mugs: Product[] = [
     description: "Modern cream finish | Dishwasher safe",
     price: 19.00,
     priceDisplay: "$19.00 AUD",
-    image: "/merchendise/cup3.webp",
+    image: "/merchendise/cup2.webp",
     category: 'merchandise',
   },
 ];
@@ -130,7 +108,8 @@ const totes: Product[] = [
     description: "Eco-friendly | Lightweight",
     price: 15.00,
     priceDisplay: "$15.00 AUD",
-    image: "/merchendise/bag1.webp",
+        image: "/merchendise/bag5.webp",
+
     category: 'merchandise',
   },
   {
@@ -148,7 +127,8 @@ const totes: Product[] = [
     description: "Durable canvas | Comfortable straps",
     price: 25.00,
     priceDisplay: "$25.00 AUD",
-    image: "/merchendise/bag3.webp",
+        image: "/merchendise/bag1.webp",
+
     category: 'merchandise',
   },
   {
@@ -166,7 +146,8 @@ const totes: Product[] = [
     description: "Durable canvas | Comfortable straps",
     price: 25.00,
     priceDisplay: "$25.00 AUD",
-    image: "/merchendise/bag3.webp",
+        image: "/merchendise/bag4.webp",
+
     category: 'merchandise',
   },
   {
@@ -175,7 +156,7 @@ const totes: Product[] = [
     description: "Durable canvas | Comfortable straps",
     price: 25.00,
     priceDisplay: "$25.00 AUD",
-    image: "/merchendise/bag3.webp",
+    image: "/merchendise/bag6.webp",
     category: 'merchandise',
   },
 ];
@@ -184,7 +165,6 @@ const totes: Product[] = [
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [imageError, setImageError] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [showQuantityControls, setShowQuantityControls] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
 
   const { addToCart, addToFavorites, removeFromFavorites, isFavorite } = useCart();
@@ -242,7 +222,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="relative w-full max-w-sm aspect-square overflow-hidden shadow-md rounded-lg">
+      <div className="relative w-full max-w-sm aspect-square overflow-hidden shadow-md">
         {/* Image or placeholder */}
         {!imageError ? (
           <motion.div 
@@ -250,10 +230,10 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.4 }}
           >
-            <Image
+            <img
               src={product.image}
               alt={product.title}
-              fill
+              // fill
               className="object-cover transition-transform duration-500 group-hover:brightness-75"
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               onError={() => setImageError(true)}
@@ -309,8 +289,6 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             {/* Add to cart button */}
             <motion.button
               onClick={handleAddToCart}
-              onMouseEnter={() => setShowQuantityControls(true)}
-              onMouseLeave={() => setShowQuantityControls(false)}
               className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-medium text-sm 
                        flex items-center gap-2 shadow-lg transition-all duration-300"
               whileHover={{ scale: 1.05 }}
@@ -369,7 +347,7 @@ function ProductGrid({ items }: { items: Product[] }) {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      {items.map((product, index) => (
+      {items.map((product) => (
         <motion.div key={product.id} variants={fadeInUp}>
           <ProductCard product={product} />
         </motion.div>
@@ -477,10 +455,10 @@ export default function Merchendise() {
             viewport={{ once: true }}
             whileHover={{ y: -5, rotate: -2, transition: { duration: 0.3 } }}
           >
-            <Image
+            <img
               src="/merchendise/merch1.webp"
               alt="T-Shirts"
-              fill
+              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
@@ -493,10 +471,10 @@ export default function Merchendise() {
             viewport={{ once: true }}
             whileHover={{ y: -5, rotate: 2, transition: { duration: 0.3 } }}
           >
-            <Image
+            <img
               src="/merchendise/coffee.webp"
               alt="Coffee Bag"
-              fill
+              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
@@ -509,10 +487,10 @@ export default function Merchendise() {
             viewport={{ once: true }}
             whileHover={{ y: -5, rotate: -2, transition: { duration: 0.3 } }}
           >
-            <Image
+            <img
               src="/merchendise/bag1.webp"
               alt="Tote Bag"
-              fill
+              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
@@ -525,10 +503,10 @@ export default function Merchendise() {
             viewport={{ once: true }}
             whileHover={{ y: -5, rotate: 2, transition: { duration: 0.3 } }}
           >
-            <Image
+            <img
               src="/merchendise/cup2.webp"
               alt="Mugs"
-              fill
+              // fill
               className="object-cover shadow-md"
             />
           </motion.div>

@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { FaUser, FaCalendarAlt, FaClock, FaChair } from "react-icons/fa";
 import ReservationCarousal from "./Carousail";
@@ -29,7 +28,7 @@ const SEATING_OPTIONS = [
 ];
 const PRICE_PER_PERSON = 20;
 
-// Memoized components for better performance
+// - StepIndicator component
 const StepIndicator = React.memo(({ currentStep }: { currentStep: number }) => (
   <div className="flex justify-center sm:gap-20 my-6">
     {STEPS.map((label, idx) => (
@@ -48,6 +47,7 @@ const StepIndicator = React.memo(({ currentStep }: { currentStep: number }) => (
     ))}
   </div>
 ));
+StepIndicator.displayName = 'StepIndicator';
 
 const LoadingState = React.memo(() => (
   <div className="w-full min-h-screen bg-white">
@@ -62,6 +62,8 @@ const LoadingState = React.memo(() => (
     </div>
   </div>
 ));
+// Add this line after the component definition
+LoadingState.displayName = 'LoadingState';
 
 export default function ReservationPage() {
   const [step, setStep] = useState(1);

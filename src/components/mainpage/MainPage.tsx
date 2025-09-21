@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Variants } from "framer-motion";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -51,13 +51,13 @@ export default function MainPage() {
               viewport={{ once: true, amount: 0.3 }}
               className="w-3/4 max-w-sm md:max-w-md lg:max-w-lg"
             >
-              <Image
+              <img
                 src="/homepage/petiteFille.webp"
                 alt="Left Section"
                 width={500}
                 height={500}
                 className="object-contain w-full h-auto"
-                priority
+                // priority
               />
             </motion.div>
           </div>
@@ -94,13 +94,13 @@ export default function MainPage() {
             viewport={{ once: true, amount: 0.3 }}
             className="w-3/4 max-w-sm md:max-w-md lg:max-w-xl"
           >
-            <Image
+            <img
               src="/mainimage/main-image.webp"
               alt="Right Section"
               width={600}
               height={600}
               className="object-contain w-full h-auto"
-              priority
+              // priority
             />
           </motion.div>
         </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { PiUserCircle } from "react-icons/pi";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -24,7 +24,7 @@ const Header = () => {
       <div className="flex items-center justify-between px-5 py-3 bg-black/20 rounded-full container mx-auto">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <Image
+          <img
             src="/logo/logo.webp"
             alt="logo"
             width={50}

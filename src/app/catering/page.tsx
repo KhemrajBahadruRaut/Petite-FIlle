@@ -1,10 +1,10 @@
 "use client";
-import Image from "next/image";
+// import Image from "next/image";
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BiRightArrow } from "react-icons/bi";
 import Link from "next/link";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 interface Package {
   id: number;
@@ -12,38 +12,6 @@ interface Package {
   title: string;
   desc: string;
   price: string;
-}
-
-// Define proper TypeScript types for animation variants
-interface AnimationVariant {
-  hidden: {
-    opacity: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-  };
-  visible: {
-    opacity: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-    transition: {
-      duration: number;
-      ease?: string;
-      staggerChildren?: number;
-      delayChildren?: number;
-    };
-  };
-  exit?: {
-    opacity: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-    transition: {
-      duration: number;
-      ease?: string;
-    };
-  };
 }
 
 const packages: Package[] = [
@@ -70,8 +38,8 @@ const packages: Package[] = [
   },
 ];
 
-// Animation variants with proper TypeScript types
-const fadeIn: AnimationVariant = {
+// Animation variants with proper TypeScript types using Variants from framer-motion
+const fadeIn: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
@@ -80,25 +48,7 @@ const fadeIn: AnimationVariant = {
   }
 };
 
-const slideInLeft: AnimationVariant = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { duration: 0.7, ease: "easeOut" }
-  }
-};
-
-const slideInRight: AnimationVariant = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { duration: 0.7, ease: "easeOut" }
-  }
-};
-
-const carouselItem: AnimationVariant = {
+const carouselItem: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { 
     opacity: 1, 
@@ -112,7 +62,7 @@ const carouselItem: AnimationVariant = {
   }
 };
 
-const staggerContainer: AnimationVariant = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -142,18 +92,18 @@ const Page = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        variants={staggerContainer as any}
+        variants={staggerContainer}
         className="mb-16"
       >
         <motion.h2 
-          variants={fadeIn as any}
+          variants={fadeIn}
           className="text-5xl text-gray-800 mb-4" 
           style={{fontFamily: 'fairplay'}}
         >
           Catering
         </motion.h2>
         <motion.p
-          variants={fadeIn as any}
+          variants={fadeIn}
           className="mt-2 text-gray-600 max-w-xl mx-auto"
         >
           From your daily ritual to your special events, we bring quality and care
@@ -166,7 +116,7 @@ const Page = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        variants={fadeIn as any}
+        variants={fadeIn}
         className="mt-10 text-2xl font-serif text-gray-700 mb-5" 
         style={{fontFamily: 'fairplay'}}
       >
@@ -178,7 +128,7 @@ const Page = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        variants={fadeIn as any}
+        variants={fadeIn}
         className="bg-[#F8F3EA] border rounded-lg overflow-hidden"
       >
         <div className="relative max-w-5xl mx-auto">
@@ -188,13 +138,13 @@ const Page = () => {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current}
-                  variants={carouselItem as any}
+                  variants={carouselItem}
                   initial="hidden"
                   animate="visible"
                   exit="exit"
                   className="w-full"
                 >
-                  <Image
+                  <img
                     src={packages[current].image}
                     alt={packages[current].title}
                     width={500}
@@ -267,28 +217,28 @@ const Page = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        variants={staggerContainer as any}
+        variants={staggerContainer}
         className="mt-20 px-6 max-w-3xl mx-auto text-center relative"
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 pointer-events-none">
-          <Image
+          <img
             src="/mainimage/main-image.webp"
             alt=""
             width={500}
             height={450}
             className="opacity-30 object-contain"
-            priority
+            // priority
           />
         </div>
         <motion.h3 
-          variants={fadeIn as any}
+          variants={fadeIn}
           className="text-2xl font-serif text-gray-800 mb-4" 
           style={{fontFamily: 'fairplay'}}
         >
           We Cater to Your Unique Taste.
         </motion.h3>
         <motion.p
-          variants={fadeIn as any}
+          variants={fadeIn}
           className="mt-3 text-gray-600" 
           style={{fontFamily: 'fairplay'}}
         >
@@ -297,7 +247,7 @@ const Page = () => {
           easy <strong>Build Your Own</strong> tool.
         </motion.p>
         <motion.div 
-          variants={fadeIn as any}
+          variants={fadeIn}
           className="mt-6 flex justify-center"
         >
           <motion.button
@@ -311,7 +261,7 @@ const Page = () => {
           </motion.button>
         </motion.div>
         <motion.p 
-          variants={fadeIn as any}
+          variants={fadeIn}
           className="mt-2 text-sm text-yellow-700" 
           style={{fontFamily: 'arial'}}
         >
@@ -324,7 +274,7 @@ const Page = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        variants={fadeIn as any}
+        variants={fadeIn}
         className="mt-20 bg-[#F5F1E8] py-12 px-6 text-center rounded-lg"
       >
         <h3 className="text-2xl font-serif text-gray-800 mb-4" style={{fontFamily: 'fairplay'}}>

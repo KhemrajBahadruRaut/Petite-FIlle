@@ -1,4 +1,3 @@
-// contexts/CartContexts.tsx - Clean version with Food/Merch categories
 "use client";
 import React, { createContext, useContext, useReducer, useEffect, useState, ReactNode } from 'react';
 
@@ -79,7 +78,7 @@ const CART_STORAGE_KEY = 'restaurant_cart';
 const FAVORITES_STORAGE_KEY = 'restaurant_favorites';
 
 // Helper functions for localStorage
-const saveToLocalStorage = (key: string, data: any) => {
+const saveToLocalStorage = (key: string, data: CartItem[] | FavoriteItem[]) => {
   if (typeof window !== 'undefined') {
     try {
       localStorage.setItem(key, JSON.stringify(data));

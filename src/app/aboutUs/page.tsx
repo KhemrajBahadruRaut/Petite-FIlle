@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import "../globals.css"
 const fadeIn = {
   initial: { opacity: 0 },
@@ -23,13 +22,13 @@ export default function AboutUs() {
       <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         {/* Centered faint background image */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 pointer-events-none">
-          <Image
+          <img
             src="/mainimage/main-image.webp"
             alt=""
             width={500}
             height={500}
             className="opacity-30 object-contain"
-            priority
+            // priority
           />
         </div>
 
@@ -71,10 +70,10 @@ export default function AboutUs() {
           <div className="md:col-span-6 relative w-full max-w-[400px] h-[350px] sm:h-[350px] md:h-[400px] mx-auto">
             {/* Frame background */}
             <motion.div {...fadeIn} className="absolute inset-0 z-10">
-              <Image
+              <img
                 src="/about/frame/Frame1.webp"
                 alt="Frame 1"
-                fill
+                // fill
                 className="object-contain"
                 sizes="(max-width: 768px) 80vw, 400px"
               />
@@ -85,7 +84,7 @@ export default function AboutUs() {
               {...slideIn(50, 50)}
               className="absolute top-3 sm:right-48 md:right-44 w-42 sm:w-40 md:w-50 z-12"
             >
-              <Image
+              <img
                 src="/about/img2.webp"
                 alt="Barista"
                 width={200}
@@ -99,7 +98,7 @@ export default function AboutUs() {
               {...slideIn(-50, -50)}
               className="absolute bottom-[-55px] sm:bottom-4 right-4 sm:right-6 w-42 sm:w-44 md:w-48 z-11"
             >
-              <Image
+              <img
                 src="/about/img1.webp"
                 alt="Chef"
                 width={200}
@@ -116,10 +115,10 @@ export default function AboutUs() {
           <div className="md:col-span-6 max-sm:hidden relative w-full max-w-[400px] h-[300px] sm:h-[350px] md:h-[400px] mx-auto">
             {/* Frame background */}
             <motion.div {...fadeIn} className="absolute inset-0 z-10">
-              <Image
+              <img
                 src="/about/frame/Frame2.webp"
                 alt="Frame 2"
-                fill
+                // fill
                 className="object-contain"
                 sizes="(max-width: 768px) 80vw, 400px"
               />
@@ -130,7 +129,7 @@ export default function AboutUs() {
               {...slideIn(-50, 50)}
               className="absolute right-2 top-5 sm:right-3 w-32 sm:w-40 md:w-46 z-11"
             >
-              <Image
+              <img
                 src="/about/img3.webp"
                 alt="Team"
                 width={180}
@@ -144,7 +143,7 @@ export default function AboutUs() {
               {...slideIn(50, -50)}
               className="absolute bottom-5 left-2 sm:left-3 w-44 sm:w-52 md:w-60 z-12"
             >
-              <Image
+              <img
                 src="/about/img4.webp"
                 alt="Discussion"
                 width={240}

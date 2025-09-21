@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { ChevronRight, ShoppingCart, Heart, Plus, Minus } from 'lucide-react';
+// import Image from 'next/image';
+import { ChevronRight, ShoppingCart, Heart } from 'lucide-react';
 import MenuCarousel from './MenuCarousel';
 import { useCart } from '@/contexts/CartContexts';
 
@@ -181,36 +181,34 @@ const sideItems: SideItem[] = [
 const MenuItemCard: React.FC<{ item: MenuItem; index: number }> = ({ item, index }) => {
   const [imageError, setImageError] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [showQuantityControls, setShowQuantityControls] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   // Connect to cart context
   const { addToCart, addToFavorites, removeFromFavorites, isFavorite } = useCart();
   const isItemFavorite = isFavorite(item.id);
 
   // Intersection Observer for scroll animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+useEffect(() => {
+  const currentSection = sectionRef.current; // Changed from currentCard
+  if (!currentSection) return;
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
       }
-    };
-  }, []);
+    },
+    { threshold: 0.1 }
+  );
+
+  observer.observe(currentSection); // Changed from currentCard
+
+  return () => {
+    observer.unobserve(currentSection); // Changed from currentCard
+  };
+}, []);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -258,7 +256,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; index: number }> = ({ item, index
 
   return (
     <div 
-      ref={cardRef}
+      ref={sectionRef}
       className={`group cursor-pointer transition-all duration-300 hover:scale-[1.02] opacity-0 translate-y-8 ${isVisible ? 'animate-fade-in-up' : ''}`}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
@@ -266,13 +264,13 @@ const MenuItemCard: React.FC<{ item: MenuItem; index: number }> = ({ item, index
         {/* Image or placeholder */}
         {!imageError ? (
           <div className="w-full h-full transition-all duration-300 group-hover:scale-105">
-            <Image
+            <img
               src={item.image}
               alt={item.alt}
-              fill
+              // fill
               className="object-cover transition-all duration-300 group-hover:brightness-75"
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
-              priority={false}
+              // priority={false}
               onError={() => setImageError(true)}
             />
           </div>
@@ -311,8 +309,6 @@ const MenuItemCard: React.FC<{ item: MenuItem; index: number }> = ({ item, index
             {/* Add to cart button */}
             <button
               onClick={handleAddToCart}
-              onMouseEnter={() => setShowQuantityControls(true)}
-              onMouseLeave={() => setShowQuantityControls(false)}
               className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-medium text-sm 
                        flex items-center gap-2 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
             >
@@ -353,32 +349,31 @@ const MenuItemCard: React.FC<{ item: MenuItem; index: number }> = ({ item, index
 // Enhanced Sides Item Card Component with animations
 const SideItemCard: React.FC<{ item: SideItem; index: number }> = ({ item, index }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+ useEffect(() => {
+  const currentSection = sectionRef.current; // Store the ref value
+  if (!currentSection) return;
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
       }
-    };
-  }, []);
+    },
+    { threshold: 0.1 }
+  );
+
+  observer.observe(currentSection);
+
+  return () => {
+    observer.unobserve(currentSection); // Use stored value
+  };
+}, []); 
 
   return (
     <div 
-      ref={cardRef}
+      ref={sectionRef}
       className={`flex justify-between items-center py-2 hover:bg-amber-50/50 px-2 rounded transition-colors duration-200 group opacity-0 translate-x-4 ${isVisible ? 'animate-fade-in-right' : ''}`}
       style={{ animationDelay: `${index * 0.05}s` }}
     >
@@ -404,27 +399,25 @@ const MenuSection: React.FC<{
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+ useEffect(() => {
+  const currentSection = sectionRef.current; // Store the ref value
+  if (!currentSection) return;
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
       }
-    };
-  }, []);
+    },
+    { threshold: 0.1 }
+  );
 
+  observer.observe(currentSection);
+
+  return () => {
+    observer.unobserve(currentSection); // Use stored value
+  };
+}, []);
   return (
     <section 
       ref={sectionRef}
@@ -459,25 +452,24 @@ const SidesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const currentSection = sectionRef.current; // Store the ref value
+  if (!currentSection) return;
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
       }
-    };
-  }, []);
+    },
+    { threshold: 0.1 }
+  );
+
+  observer.observe(currentSection);
+
+  return () => {
+    observer.unobserve(currentSection); // Use stored value
+  };
+}, []);
 
   return (
     <section 

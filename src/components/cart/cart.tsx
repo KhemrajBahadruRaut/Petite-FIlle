@@ -1,38 +1,27 @@
 // pages/cart.tsx (or app/cart/page.tsx if using App Router)
 "use client";
+
+
+
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, Calendar, ChevronDown, ChevronRight } from 'lucide-react';
-import { useCart } from '@/contexts/CartContexts';
+// import Image from 'next/image';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, Calendar, ChevronDown } from 'lucide-react';
+import { useCart, CartItem } from '@/contexts/CartContexts';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Animation variants
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 }
-};
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const scaleIn = {
-  initial: { opacity: 0, scale: 0.9 },
-  animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.9 }
-};
-
-const slideIn = {
-  initial: { opacity: 0, x: -20 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: 20 }
-};
+// Define proper TypeScript interface for cart items
+// interface CartItem {
+//   id: string;
+//   name: string;
+//   description: string;
+//   price: number;
+//   quantity: number;
+//   image: string;
+//   alt: string;
+//   category: 'food' | 'merchandise';
+//   addedAt: string;
+// }
 
 const CartPage: React.FC = () => {
   const {
@@ -174,7 +163,7 @@ const CartPage: React.FC = () => {
               transition={{ delay: 0.5 }}
               className="text-gray-600 mb-8 max-w-md mx-auto"
             >
-              Looks like you haven't added any delicious items to your cart yet. 
+              Looks like you haven&apos;t added any delicious items to your cart yet. 
               Browse our menu and discover amazing dishes!
             </motion.p>
             <motion.div 
@@ -202,7 +191,8 @@ const CartPage: React.FC = () => {
     );
   }
   
-  const CartItemComponent = ({ item }: { item: any }) => (
+  // Define CartItemComponent with proper TypeScript typing
+  const CartItemComponent: React.FC<{ item: CartItem }> = ({ item }) => (
     <motion.div
       layout
       initial={{ opacity: 0, y: 10 }}
@@ -218,10 +208,10 @@ const CartPage: React.FC = () => {
           transition={{ duration: 0.2 }}
           className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200"
         >
-          <Image
+          <img
             src={item.image}
             alt={item.alt}
-            fill
+            // fill
             className="object-cover"
             sizes="96px"
           />
@@ -642,5 +632,7 @@ const CartPage: React.FC = () => {
     </motion.div>
   );
 };
+
+CartPage.displayName = 'CartPage';
 
 export default CartPage;

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -76,7 +76,7 @@ const WhatWeOffer = () => {
               style={{fontFamily: 'arial'}}>
                 {/* Image Wrapper with Hover */}
                 <div className="overflow-hidden">
-                  <Image
+                  <img
                     width={400}
                     height={400}
                     src={item.img}
