@@ -129,7 +129,7 @@ const Page = () => {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeIn}
-        className="bg-[#F8F3EA] border rounded-lg overflow-hidden"
+        className="bg-[#F8F3EA] rounded-lg overflow-hidden"
       >
         <div className="relative max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-8">

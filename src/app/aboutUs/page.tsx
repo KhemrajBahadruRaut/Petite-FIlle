@@ -1,7 +1,8 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import "../globals.css"
+import "../globals.css";
+
 const fadeIn = {
   initial: { opacity: 0 },
   whileInView: { opacity: 1 },
@@ -17,6 +18,16 @@ const slideIn = (x: number, y: number) => ({
 });
 
 export default function AboutUs() {
+  const [content, setContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("http://localhost/petite-backend/about/aboutus.php") // <-- your PHP endpoint
+      .then((res) => res.json())
+      .then((data) => setContent(data));
+  }, []);
+
+  if (!content) return <p>Loading...</p>;
+
   return (
     <div className="bg-white">
       <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
@@ -28,19 +39,20 @@ export default function AboutUs() {
             width={500}
             height={500}
             className="opacity-30 object-contain"
-            // priority
           />
         </div>
 
         {/* Title */}
         <div className="text-center mb-10 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-600 mb-4"
-            style={{ fontFamily: 'fairplaybold' }}
+          <h2
+            className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-600 mb-4"
+            style={{ fontFamily: "fairplaybold" }}
           >
             About us
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base"
-            style={{ fontFamily: 'arial' }}
+          <p
+            className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base"
+            style={{ fontFamily: "arial" }}
           >
             Lorem ipsum dolor sit amet, consectetur adipis scing elit sed do
             eiusmod tempor incididunt
@@ -50,57 +62,42 @@ export default function AboutUs() {
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-start relative">
           {/* Left text */}
-          <div className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-6 md:pt-20 text-sm sm:text-base"
-            style={{ fontFamily: 'arial' }}
+          <div
+            className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-10 text-sm sm:text-base text-justify"
+            style={{ fontFamily: "arial" }}
           >
-            <p
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+            <p>{content.top.paragraph1}</p>
+            <p>{content.top.paragraph2}</p>
           </div>
 
           {/* Frame 1 with 2 images */}
           <div className="md:col-span-6 relative w-full max-w-[400px] h-[350px] sm:h-[350px] md:h-[400px] mx-auto">
-            {/* Frame background */}
             <motion.div {...fadeIn} className="absolute inset-0 z-10">
               <img
                 src="/about/frame/Frame1.webp"
                 alt="Frame 1"
-                // fill
                 className="object-contain"
-                sizes="(max-width: 768px) 80vw, 400px"
               />
             </motion.div>
-
-            {/* Image 1 inside frame */}
             <motion.div
               {...slideIn(50, 50)}
               className="absolute top-3 sm:right-48 md:right-44 w-42 sm:w-40 md:w-50 z-12"
             >
               <img
-                src="/about/img2.webp"
-                alt="Barista"
+                src={content.top.image1}
+                alt="Image 1"
                 width={200}
                 height={200}
                 className="object-contain"
               />
             </motion.div>
-
-            {/* Image 2 inside frame */}
             <motion.div
               {...slideIn(-50, -50)}
               className="absolute bottom-[-55px] sm:bottom-4 right-4 sm:right-6 w-42 sm:w-44 md:w-48 z-11"
             >
               <img
-                src="/about/img1.webp"
-                alt="Chef"
+                src={content.top.image2}
+                alt="Image 2"
                 width={200}
                 height={200}
                 className="object-contain"
@@ -111,41 +108,33 @@ export default function AboutUs() {
 
         {/* Bottom Section */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-start relative">
-          {/* Frame 2 with 2 images */}
           <div className="md:col-span-6 max-sm:hidden relative w-full max-w-[400px] h-[300px] sm:h-[350px] md:h-[400px] mx-auto">
-            {/* Frame background */}
             <motion.div {...fadeIn} className="absolute inset-0 z-10">
               <img
                 src="/about/frame/Frame2.webp"
                 alt="Frame 2"
-                // fill
                 className="object-contain"
-                sizes="(max-width: 768px) 80vw, 400px"
               />
             </motion.div>
-
-            {/* Image 3 inside frame */}
             <motion.div
               {...slideIn(-50, 50)}
               className="absolute right-2 top-5 sm:right-3 w-32 sm:w-40 md:w-46 z-11"
             >
               <img
-                src="/about/img3.webp"
-                alt="Team"
+                src={content.bottom.image1}
+                alt="Image 3"
                 width={180}
                 height={180}
                 className="object-contain"
               />
             </motion.div>
-
-            {/* Image 4 inside frame */}
             <motion.div
               {...slideIn(50, -50)}
               className="absolute bottom-5 left-2 sm:left-3 w-44 sm:w-52 md:w-60 z-12"
             >
               <img
-                src="/about/img4.webp"
-                alt="Discussion"
+                src={content.bottom.image2}
+                alt="Image 4"
                 width={240}
                 height={240}
                 className="object-contain"
@@ -154,18 +143,12 @@ export default function AboutUs() {
           </div>
 
           {/* Right text */}
-          <div className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-16 sm:pt-2 md:pt-20 text-sm sm:text-base"
-                  style={{ fontFamily: 'arial' }}>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+          <div
+            className="md:col-span-6 text-gray-700 leading-relaxed space-y-4 pt-16 sm:pt-2 md:pt-20 text-sm sm:text-base text-justify"
+            style={{ fontFamily: "arial" }}
+          >
+            <p>{content.bottom.paragraph1}</p>
+            <p>{content.bottom.paragraph2}</p>
           </div>
         </div>
       </section>
