@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       ),
       children: [
         { 
-          href: '/admin/menu-admin', 
+          href: '/admin/menu-admin',
           label: 'Menu Management',
           shortLabel: 'Menu',
           icon: (
@@ -79,12 +79,25 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         },
         { 
           href: '/admin/adminAbout', 
-          label: 'About Section Management',
+          label: 'About Management',
           shortLabel: 'About',
           icon: (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A8 8 0 0112 15a8 8 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+</svg>
+
+          )
+        },
+        { 
+          href: "/admin/merchendise",
+          label: 'Merchendise Management',
+          shortLabel: 'Merch',
+          icon: (
+           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M5 8h14l1 12H4L5 8z" />
+  <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M9 8a3 3 0 016 0" />
+</svg>
+
           )
         },
       ]
@@ -100,41 +113,44 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       )
     },
     { 
-      href: '/admin/reservations', 
-      label: 'Reservations',
-      shortLabel: 'Bookings',
+      href: '/admin/contacts', 
+      label: 'Contacts',
+      shortLabel: 'cintacts',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 4a2 2 0 00-2 2v12a2 2 0 002 2h14a1 1 0 001-1v-1h-3a2 2 0 01-2-2V8a2 2 0 012-2h3V5a1 1 0 00-1-1H5z" />
+  <circle cx="12" cy="10" r="3" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 16a4 4 0 016 0" />
+</svg>
+
       )
     },
-    { 
-      href: '/admin/analytics', 
-      label: 'Analytics',
-      shortLabel: 'Stats',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      )
-    },
-    { 
-      href: '/admin/settings', 
-      label: 'Settings',
-      shortLabel: 'Settings',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      )
-    },
+    // { 
+    //   href: '/admin/reservations', 
+    //   label: 'Reservations',
+    //   shortLabel: 'Bookings',
+    //   icon: (
+    //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    //     </svg>
+    //   )
+    // },
+    // { 
+    //   href: '/admin/settings', 
+    //   label: 'Settings',
+    //   shortLabel: 'Settings',
+    //   icon: (
+    //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    //     </svg>
+    //   )
+    // },
   ];
 
   // Auto-expand CMS section if we're on a CMS page
   useEffect(() => {
-    const cmsPages = ['/admin/menu-admin', '/admin/gallery' , '/admin/adminAbout'];
+    const cmsPages = ['/admin/menu-admin', '/admin/gallery' , '/admin/adminAbout', '/admin/merchendise'];
     if (cmsPages.includes(pathname)) {
       setExpandedSections(prev => ({ ...prev, cms: true }));
     }
@@ -248,7 +264,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="flex items-center justify-between p-4 border-b border-slate-200">
           {isSidebarOpen ? (
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md">
+              <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md">
                 <span className="text-white font-bold text-lg">PF</span>
               </div>
               <div>
@@ -257,7 +273,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </div>
             </div>
           ) : (
-            <div className='w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md'>
+            <div className='w-10 h-10 bg-linear-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md'>
               <span className="text-white font-bold text-lg">PF</span>
             </div>
           )}
@@ -304,7 +320,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     >
                       {/* Animated background effect */}
                       <div className={`
-                        absolute inset-0 bg-gradient-to-r from-blue-500/5 to-blue-600/5 rounded-lg
+                        absolute inset-0 bg-linear-to-r from-blue-500/5 to-blue-600/5 rounded-lg
                         transition-all duration-300 transform
                         ${hasActiveChild || isExpanded ? 'scale-100 opacity-100' : 'scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100'}
                       `}/>
@@ -319,7 +335,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                       <div className="relative z-10 flex items-center w-full">
                         {/* Icon */}
                         <div className={`
-                          flex-shrink-0 transition-all duration-300
+                          shrink-0 transition-all duration-300
                           ${hasActiveChild || isExpanded ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'}
                           ${isSidebarOpen ? 'mr-3' : 'mx-auto'}
                         `}>
@@ -357,16 +373,19 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                       </div>
                     </button>
 
-                    {/* Collapsible Children */}
+                   {/* Collapsible Children */}
                     <div 
                       className={`
                         overflow-hidden transition-all duration-300 ease-out
                         ${isExpanded 
-                          ? 'max-h-40 opacity-100 transform translate-y-0' 
-                          : 'max-h-0 opacity-0 transform -translate-y-2'
+                          ? 'opacity-100 transform translate-y-0' 
+                          : 'opacity-0 transform -translate-y-2'
                         }
                         ${!isSidebarOpen ? 'lg:hidden' : ''}
                       `}
+                      style={{
+                        maxHeight: isExpanded ? `${item.children.length * 60 + 16}px` : '0px'
+                      }}
                     >
                       <ul className="space-y-1 ml-4 mt-1">
                         {item.children?.map((child, index) => {
@@ -396,7 +415,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                               >
                                 {/* Animated background */}
                                 <div className={`
-                                  absolute inset-0 bg-gradient-to-r from-blue-500/3 to-blue-600/3 rounded-lg
+                                  absolute inset-0 bg-linear-to-r from-blue-500/3 to-blue-600/3 rounded-lg
                                   transition-all duration-300 transform
                                   ${isActive ? 'scale-100 opacity-100' : 'scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100'}
                                 `}/>
@@ -404,7 +423,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 <div className="relative z-10 flex items-center w-full">
                                   {/* Child Icon */}
                                   <div className={`
-                                    flex-shrink-0 mr-3 transition-all duration-300
+                                    shrink-0 mr-3 transition-all duration-300
                                     ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'}
                                   `}>
                                     {child.icon}
@@ -449,7 +468,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     >
                       {/* Animated background effect */}
                       <div className={`
-                        absolute inset-0 bg-gradient-to-r from-blue-500/5 to-blue-600/5 rounded-lg
+                        absolute inset-0 bg-linear-to-r from-blue-500/5 to-blue-600/5 rounded-lg
                         transition-all duration-300 transform
                         ${isActive ? 'scale-100 opacity-100' : 'scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100'}
                       `}/>
@@ -464,7 +483,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                       <div className="relative z-10 flex items-center w-full">
                         {/* Icon */}
                         <div className={`
-                          flex-shrink-0 transition-all duration-300
+                          shrink-0 transition-all duration-300
                           ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'}
                           ${isSidebarOpen ? 'mr-3' : 'mx-auto'}
                         `}>
@@ -511,7 +530,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             ${isSidebarOpen ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0 lg:max-h-20 lg:opacity-100'}
           `}>
             <div className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-all duration-300 cursor-pointer group">
-              <div className="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-800 rounded-full flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-linear-to-br from-slate-600 to-slate-800 rounded-full flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
                 <span className="text-white font-medium text-sm">A</span>
               </div>
               <div className="flex-1 min-w-0">
@@ -569,7 +588,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </div>
               
               {/* Profile Avatar */}
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-110 group">
+              <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-110 group">
                 <span className="text-white font-semibold text-sm group-hover:scale-110 transition-transform duration-300">A</span>
               </div>
             </div>

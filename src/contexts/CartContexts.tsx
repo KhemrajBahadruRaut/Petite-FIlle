@@ -82,7 +82,7 @@ const saveToLocalStorage = (key: string, data: CartItem[] | FavoriteItem[]) => {
   if (typeof window !== 'undefined') {
     try {
       localStorage.setItem(key, JSON.stringify(data));
-      console.log(`✅ Saved to localStorage ${key}:`, data);
+      // console.log(`✅ Saved to localStorage ${key}:`, data);
     } catch (error) {
       console.error('❌ Failed to save to localStorage:', error);
     }
@@ -94,7 +94,7 @@ const loadFromLocalStorage = (key: string) => {
     try {
       const item = localStorage.getItem(key);
       const parsed = item ? JSON.parse(item) : null;
-      console.log(`✅ Loaded from localStorage ${key}:`, parsed);
+      // console.log(`✅ Loaded from localStorage ${key}:`, parsed);
       return parsed;
     } catch (error) {
       console.error('❌ Failed to load from localStorage:', error);
@@ -131,7 +131,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
   switch (action.type) {
     case 'HYDRATE': {
-      console.log('💧 Hydrating cart state:', action.payload.state);
+      // console.log('💧 Hydrating cart state:', action.payload.state);
       return action.payload.state;
     }
 
@@ -276,12 +276,12 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Hydrate from localStorage after component mounts (client-side only)
   useEffect(() => {
-    console.log('🚀 CartProvider mounting...');
+    // console.log('🚀 CartProvider mounting...');
     
     const savedCart = loadFromLocalStorage(CART_STORAGE_KEY) || [];
     const savedFavorites = loadFromLocalStorage(FAVORITES_STORAGE_KEY) || [];
     
-    console.log('📦 Loaded data:', { savedCart, savedFavorites });
+    // console.log('📦 Loaded data:', { savedCart, savedFavorites });
     
     const calculatedData = calculateTotalsAndCategories(savedCart);
     const hydratedState: CartState = {
@@ -290,7 +290,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       ...calculatedData,
     };
 
-    console.log('💧 Hydrating with state:', hydratedState);
+    // console.log('💧 Hydrating with state:', hydratedState);
     
     dispatch({ type: 'HYDRATE', payload: { state: hydratedState } });
     setIsHydrated(true);
@@ -312,42 +312,42 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Context methods
   const addToCart = (item: Omit<CartItem, 'quantity' | 'addedAt'>, quantity: number = 1) => {
-    console.log('➕ Adding to cart:', item, quantity);
+    // console.log('➕ Adding to cart:', item, quantity);
     dispatch({ type: 'ADD_TO_CART', payload: { item, quantity } });
   };
 
   const updateQuantity = (id: string, quantity: number) => {
-    console.log('🔄 Updating quantity:', id, quantity);
+    // console.log('🔄 Updating quantity:', id, quantity);
     dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
   };
 
   const removeFromCart = (id: string) => {
-    console.log('🗑️ Removing from cart:', id);
+    // console.log('🗑️ Removing from cart:', id);
     dispatch({ type: 'REMOVE_FROM_CART', payload: { id } });
   };
 
   const clearCart = () => {
-    console.log('🧹 Clearing entire cart');
+    // console.log('🧹 Clearing entire cart');
     dispatch({ type: 'CLEAR_CART' });
   };
 
   const clearFoodCart = () => {
-    console.log('🧹 Clearing food cart');
+    // console.log('🧹 Clearing food cart');
     dispatch({ type: 'CLEAR_FOOD_CART' });
   };
 
   const clearMerchCart = () => {
-    console.log('🧹 Clearing merch cart');
+    // console.log('🧹 Clearing merch cart');
     dispatch({ type: 'CLEAR_MERCH_CART' });
   };
 
   const addToFavorites = (item: FavoriteItem) => {
-    console.log('❤️ Adding to favorites:', item);
+    // console.log('❤️ Adding to favorites:', item);
     dispatch({ type: 'ADD_TO_FAVORITES', payload: { item } });
   };
 
   const removeFromFavorites = (id: string) => {
-    console.log('💔 Removing from favorites:', id);
+    // console.log('💔 Removing from favorites:', id);
     dispatch({ type: 'REMOVE_FROM_FAVORITES', payload: { id } });
   };
 

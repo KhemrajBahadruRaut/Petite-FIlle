@@ -196,7 +196,7 @@ const Page = () => {
             aria-label="Previous"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-gray-50"
+            className="absolute -left-5 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-gray-50"
           >
             <ChevronLeft className="w-5 h-5 text-gray-700" />
           </motion.button>
@@ -205,7 +205,7 @@ const Page = () => {
             aria-label="Next"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-gray-50"
+            className="absolute -right-5 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-gray-50"
           >
             <ChevronRight className="w-5 h-5 text-gray-700" />
           </motion.button>
@@ -250,15 +250,17 @@ const Page = () => {
           variants={fadeIn}
           className="mt-6 flex justify-center"
         >
+          <Link href="/multistepcatering">
           <motion.button
             whileHover={{ scale: 1.05, backgroundColor: "#6B5A3C", color: "white" }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
             className="px-4 flex items-center text-yellow-800 gap-3 py-2 border border-yellow-900 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-900" 
             style={{fontFamily: 'arial'}}
-          >
+            >
             Build your own <BiRightArrow />
           </motion.button>
+            </Link>
         </motion.div>
         <motion.p 
           variants={fadeIn}

@@ -43,7 +43,7 @@ const Header = () => {
               style={{fontFamily: 'arial'}}
             >
               {label}
-              <span className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-[#B7AA99] transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-[#B7AA99] transition-all duration-300 group-hover:w-full"></span>
             </Link>
           ))}
         </nav>
@@ -55,7 +55,7 @@ const Header = () => {
                         style={{fontFamily: 'arial'}}>
             Menu
             </Link>
-            <span className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-[#B7AA99] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-[#B7AA99] transition-all duration-300 group-hover:w-full"></span>
           </span>
           <div aria-label="User Profile">
             <PiUserCircle className="size-8" />

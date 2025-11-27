@@ -30,6 +30,7 @@ const ContactForm = () => {
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submitError, setSubmitError] = useState<string>('');
 
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -82,10 +83,14 @@ const ContactForm = () => {
         if (errors[field as keyof FormErrors]) {
             setErrors(prev => ({ ...prev, [field]: undefined }));
         }
-    }, [errors]);
+        
+        // Clear submit error
+        if (submitError) {
+            setSubmitError('');
+        }
+    }, [errors, submitError]);
 
     const handleSubmit = async () => {
-
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
@@ -93,21 +98,34 @@ const ContactForm = () => {
         }
 
         setIsSubmitting(true);
+        setSubmitError('');
 
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            setIsSubmitted(true);
-            setFormData({
-                fullName: '',
-                email: '',
-                phone: '',
-                message: '',
-                agreement: false,
+            const response = await fetch('http://localhost/petite-backend/contact/submit_contact.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
             });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                setIsSubmitted(true);
+                setFormData({
+                    fullName: '',
+                    email: '',
+                    phone: '',
+                    message: '',
+                    agreement: false,
+                });
+            } else {
+                setSubmitError(result.message || 'Failed to send message. Please try again.');
+            }
         } catch (error) {
             console.error('Submission error:', error);
+            setSubmitError('Network error. Please check your connection and try again.');
         } finally {
             setIsSubmitting(false);
         }
@@ -115,7 +133,7 @@ const ContactForm = () => {
 
     if (isSubmitted) {
         return (
-            <div className="bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
+            <div className="bg-linear-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,8 +156,8 @@ const ContactForm = () => {
     return (
         <>
             <ContactsCarousel />
-            <div className=" bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4"
-            style={{fontFamily: 'arial'}}
+            <div className="bg-linear-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4"
+                style={{ fontFamily: 'arial' }}
             >
                 <div className="p-8 max-w-xl w-full">
                     <div className="text-center mb-8">
@@ -148,10 +166,27 @@ const ContactForm = () => {
                         </h1>
                     </div>
 
+                    {/* Error Alert */}
+                    {submitError && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+                            <svg className="w-5 h-5 text-red-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div className="flex-1">
+                                <p className="text-sm text-red-800 font-medium">{submitError}</p>
+                            </div>
+                            <button onClick={() => setSubmitError('')} className="text-red-600 hover:text-red-800">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    )}
+
                     <div className="space-y-6">
                         {/* Full Name */}
                         <div>
-                            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 ">
+                            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                                 Full Name
                             </label>
                             <input
@@ -161,8 +196,8 @@ const ContactForm = () => {
                                 onChange={(e) => handleInputChange('fullName', e.target.value)}
                                 placeholder="Your Name"
                                 className={`w-full px-4 py-3 border-b-2 bg-transparent text-gray-500 focus:outline-none transition-colors ${errors.fullName
-                                        ? 'border-red-500 focus:border-red-500'
-                                        : 'border-gray-200 focus:border-yellow-700'
+                                    ? 'border-red-500 focus:border-red-500'
+                                    : 'border-gray-200 focus:border-yellow-700'
                                     }`}
                                 aria-describedby={errors.fullName ? "fullName-error" : undefined}
                             />
@@ -185,8 +220,8 @@ const ContactForm = () => {
                                 onChange={(e) => handleInputChange('email', e.target.value)}
                                 placeholder="abc@gmail.com"
                                 className={`w-full px-4 py-3 border-b-2 bg-transparent text-gray-500 focus:outline-none transition-colors ${errors.email
-                                        ? 'border-red-500 focus:border-red-500'
-                                        : 'border-gray-200 focus:border-yellow-700'
+                                    ? 'border-red-500 focus:border-red-500'
+                                    : 'border-gray-200 focus:border-yellow-700'
                                     }`}
                                 aria-describedby={errors.email ? "email-error" : undefined}
                             />
@@ -209,8 +244,8 @@ const ContactForm = () => {
                                 onChange={(e) => handleInputChange('phone', e.target.value)}
                                 placeholder="Your number"
                                 className={`w-full px-4 py-3 border-b-2 bg-transparent text-gray-500 focus:outline-none transition-colors ${errors.phone
-                                        ? 'border-red-500 focus:border-red-500'
-                                        : 'border-gray-200 focus:border-yellow-700'
+                                    ? 'border-red-500 focus:border-red-500'
+                                    : 'border-gray-200 focus:border-yellow-700'
                                     }`}
                                 aria-describedby={errors.phone ? "phone-error" : undefined}
                             />
@@ -233,8 +268,8 @@ const ContactForm = () => {
                                 placeholder="Type your message here ..."
                                 rows={4}
                                 className={`w-full px-4 py-3 border-2 rounded-lg resize-none text-gray-500 bg-transparent focus:outline-none transition-colors ${errors.message
-                                        ? 'border-red-500 focus:border-red-500'
-                                        : 'border-gray-200 focus:border-yellow-700'
+                                    ? 'border-red-500 focus:border-red-500'
+                                    : 'border-gray-200 focus:border-yellow-700'
                                     }`}
                                 aria-describedby={errors.message ? "message-error" : undefined}
                             />
@@ -268,13 +303,12 @@ const ContactForm = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <div className=" flex justify-center">
-
+                        <div className="flex justify-center">
                             <button
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={isSubmitting}
-                                className="px-4 py-2 text-black rounded-lg font-medium border hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all  "
+                                className="px-4 py-2 text-black rounded-lg font-medium border hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
                                 {isSubmitting ? (
                                     <span className="flex items-center justify-center">
@@ -293,7 +327,6 @@ const ContactForm = () => {
                 </div>
             </div>
         </>
-
     );
 };
 

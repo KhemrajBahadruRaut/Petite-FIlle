@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-// import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import { ShoppingCart, Heart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContexts';
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +14,16 @@ interface Product {
   category: 'merchandise';
 }
 
+interface BackendProduct {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  image_url: string;
+  category: string;
+}
+
 // Fixed Animation variants with proper TypeScript types
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -26,7 +35,7 @@ const fadeInUp = {
       ease: "easeOut"
     }
   }
-} as const; // Add 'as const' to fix TypeScript issues
+} as const;
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -37,129 +46,6 @@ const staggerContainer = {
     }
   }
 } as const;
-
-// Different datasets for each section
-const mugs: Product[] = [
-  {
-    id: 'mug-1',
-    title: "Mug with Coffee & Tea Print",
-    description: "Perfect for hot drinks | Stylish and durable",
-    price: 24.00,
-    priceDisplay: "$24.00 AUD",
-        image: "/merchendise/cup3.webp",
-
-    category: 'merchandise',
-  },
-  {
-    id: 'mug-2',
-    title: "Mr & Mrs Black Mugs",
-    description: "Set of two mugs | Minimalist design",
-    price: 29.00,
-    priceDisplay: "$29.00 AUD",
-        image: "/merchendise/cup1.webp",
-
-    category: 'merchandise',
-  },
-  {
-    id: 'mug-3',
-    title: "Minimal Cream Cups",
-    description: "Modern cream finish | Dishwasher safe",
-    price: 19.00,
-    priceDisplay: "$19.00 AUD",
-    image: "/merchendise/cup2.webp",
-    category: 'merchandise',
-  },
-];
-
-const candles: Product[] = [
-  {
-    id: 'candle-1',
-    title: "Lavender Scented Candle",
-    description: "Relaxing fragrance | Long burn time",
-    price: 18.00,
-    priceDisplay: "$18.00 AUD",
-    image: "/merchendise/candle1.webp",
-    category: 'merchandise',
-  },
-  {
-    id: 'candle-2',
-    title: "Vanilla Bean Candle",
-    description: "Warm vanilla scent | Handmade",
-    price: 20.00,
-    priceDisplay: "$20.00 AUD",
-    image: "/merchendise/candle1.webp",
-    category: 'merchandise',
-  },
-  {
-    id: 'candle-3',
-    title: "Citrus Burst Candle",
-    description: "Fresh citrus aroma | Eco-friendly wax",
-    price: 22.00,
-    priceDisplay: "$22.00 AUD",
-    image: "/merchendise/candle2.webp",
-    category: 'merchandise',
-  },
-];
-
-const totes: Product[] = [
-  {
-    id: 'tote-1',
-    title: "Classic Cotton Tote",
-    description: "Eco-friendly | Lightweight",
-    price: 15.00,
-    priceDisplay: "$15.00 AUD",
-        image: "/merchendise/bag5.webp",
-
-    category: 'merchandise',
-  },
-  {
-    id: 'tote-2',
-    title: "Printed Logo Tote",
-    description: "Stylish print | Spacious",
-    price: 18.00,
-    priceDisplay: "$18.00 AUD",
-    image: "/merchendise/bag2.webp",
-    category: 'merchandise',
-  },
-  {
-    id: 'tote-3',
-    title: "Premium Canvas Tote",
-    description: "Durable canvas | Comfortable straps",
-    price: 25.00,
-    priceDisplay: "$25.00 AUD",
-        image: "/merchendise/bag1.webp",
-
-    category: 'merchandise',
-  },
-  {
-    id: 'tote-4',
-    title: "Premium Canvas Tote - Blue",
-    description: "Durable canvas | Comfortable straps",
-    price: 25.00,
-    priceDisplay: "$25.00 AUD",
-    image: "/merchendise/bag3.webp",
-    category: 'merchandise',
-  },
-  {
-    id: 'tote-5',
-    title: "Premium Canvas Tote - Green",
-    description: "Durable canvas | Comfortable straps",
-    price: 25.00,
-    priceDisplay: "$25.00 AUD",
-        image: "/merchendise/bag4.webp",
-
-    category: 'merchandise',
-  },
-  {
-    id: 'tote-6',
-    title: "Premium Canvas Tote - Red",
-    description: "Durable canvas | Comfortable straps",
-    price: 25.00,
-    priceDisplay: "$25.00 AUD",
-    image: "/merchendise/bag6.webp",
-    category: 'merchandise',
-  },
-];
 
 // Enhanced Product Card with Cart Integration
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
@@ -233,7 +119,6 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             <img
               src={product.image}
               alt={product.title}
-              // fill
               className="object-cover transition-transform duration-500 group-hover:brightness-75"
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               onError={() => setImageError(true)}
@@ -241,7 +126,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           </motion.div>
         ) : (
           <motion.div 
-            className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
+            className="w-full h-full border border-blue-500 flex items-center justify-center bg-linear-to-br from-gray-100 to-gray-200"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -283,7 +168,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         >
           <motion.div 
             className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex flex-col items-center gap-3"
-            initial={{ y: 20 }}
+            initial={{ y: 2 }}
             whileHover={{ y: 0 }}
           >
             {/* Add to cart button */}
@@ -357,6 +242,77 @@ function ProductGrid({ items }: { items: Product[] }) {
 }
 
 export default function Merchendise() {
+  const [mugs, setMugs] = useState<Product[]>([]);
+  const [candles, setCandles] = useState<Product[]>([]);
+  const [totes, setTotes] = useState<Product[]>([]);
+  const [tshirt, setTshirts] = useState<Product[]>([]);
+  const [caps, setCaps] = useState<Product[]>([]);
+  const [hoodies, setHoodies] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch products from backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost/petite-backend/merch/get_merch_items.php');
+        if (!response.ok) throw new Error('Failed to fetch products');
+        
+        const data: BackendProduct[] = await response.json();
+        
+        // Transform backend data to frontend format
+        const transformProduct = (item: BackendProduct): Product => ({
+          id: `${item.category}-${item.id}`,
+          title: item.name,
+          description: item.description || '',
+          price: item.price,
+          priceDisplay: `$${item.price.toFixed(2)} AUD`,
+          image: item.image_url || item.image,
+          category: 'merchandise'
+        });
+
+        // Filter and categorize products
+        const mugProducts = data
+          .filter(item => item.category === 'mug')
+          .map(transformProduct);
+        
+        const candleProducts = data
+          .filter(item => item.category === 'candle')
+          .map(transformProduct);
+        
+        const toteProducts = data
+          .filter(item => item.category === 'tote')
+          .map(transformProduct);
+
+        const tshirtProducts = data
+          .filter(item => item.category === 'tshirt')
+          .map(transformProduct);
+
+        const capProducts = data
+          .filter(item => item.category === 'cap')
+          .map(transformProduct);
+
+        const hoodieProducts = data
+          .filter(item => item.category === 'hoodie')
+          .map(transformProduct);
+
+        setMugs(mugProducts);
+        setCandles(candleProducts);
+        setTotes(toteProducts);
+        setTshirts(tshirtProducts);
+        setCaps(capProducts);
+        setHoodies(hoodieProducts);
+        
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -448,7 +404,7 @@ export default function Merchendise() {
 
           {/* Product Images */}
           <motion.div
-            className="absolute top-5 left-1/2 -translate-x-1/2 w-40 h-48"
+            className="absolute -top-3 left-1/2 -translate-x-1/2 w-40 h-48"
             initial={{ opacity: 0, y: -20, rotate: -5 }}
             whileInView={{ opacity: 1, y: 0, rotate: 0 }}
             transition={{ delay: 0.9, duration: 0.6 }}
@@ -458,7 +414,6 @@ export default function Merchendise() {
             <img
               src="/merchendise/merch1.webp"
               alt="T-Shirts"
-              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
@@ -474,13 +429,12 @@ export default function Merchendise() {
             <img
               src="/merchendise/coffee.webp"
               alt="Coffee Bag"
-              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
 
           <motion.div
-            className="absolute top-58 left-1/2 -translate-x-1/2 w-40 h-48"
+            className="absolute top-61 left-1/2 -translate-x-1/2 w-40 h-48"
             initial={{ opacity: 0, y: 20, rotate: 5 }}
             whileInView={{ opacity: 1, y: 0, rotate: 0 }}
             transition={{ delay: 1.1, duration: 0.6 }}
@@ -490,13 +444,12 @@ export default function Merchendise() {
             <img
               src="/merchendise/bag1.webp"
               alt="Tote Bag"
-              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
 
           <motion.div
-            className="absolute top-28 right-0 w-40 h-48"
+            className="absolute top-18 right-0 w-40 h-48"
             initial={{ opacity: 0, x: 20, rotate: -5 }}
             whileInView={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
@@ -506,73 +459,154 @@ export default function Merchendise() {
             <img
               src="/merchendise/cup2.webp"
               alt="Mugs"
-              // fill
               className="object-cover shadow-md"
             />
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Sections */}
-      <motion.section 
-        className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <motion.h2
-          className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
-          style={{ fontFamily: 'fairplaybold' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+      {/* Loading State */}
+      {isLoading && (
+        <div className="w-full py-12 text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-amber-500"></div>
+          <p className="mt-4 text-gray-600">Loading products...</p>
+        </div>
+      )}
+      {/* Sections - Only show if there are items */}
+      {!isLoading && mugs.length > 0 && (
+        <motion.section 
+          className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          Mugs and Cups
-        </motion.h2>
-        <ProductGrid items={mugs} />
-      </motion.section>
+          <motion.h2
+            className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Mugs and Cups
+          </motion.h2>
+          <ProductGrid items={mugs} />
+        </motion.section>
+      )}
+      {!isLoading && candles.length > 0 && (
+        <motion.section 
+          className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.h2
+            className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Scented Candles
+          </motion.h2>
+          <ProductGrid items={candles} />
+        </motion.section>
+      )}
+      {!isLoading && totes.length > 0 && (
+        <motion.section 
+          className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.h2
+            className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Tote Bags
+          </motion.h2>
+          <ProductGrid items={totes} />
+        </motion.section>
+      )}
+      {!isLoading && tshirt.length > 0 && (
+        <motion.section 
+          className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.h2
+            className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            T-shirts
+          </motion.h2>
+          <ProductGrid items={tshirt} />
+        </motion.section>
+      )}
+      {!isLoading && caps.length > 0 && (
+        <motion.section 
+          className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.h2
+            className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Caps
+          </motion.h2>
+          <ProductGrid items={caps} />
+        </motion.section>
+      )}
+      {!isLoading && hoodies.length > 0 && (
+        <motion.section 
+          className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.h2
+            className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
+            style={{ fontFamily: 'fairplaybold' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Hoodies
+          </motion.h2>
+          <ProductGrid items={hoodies} />
+        </motion.section>
+      )}
 
-      <motion.section 
-        className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <motion.h2
-          className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
-          style={{ fontFamily: 'fairplaybold' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          Scented Candles
-        </motion.h2>
-        <ProductGrid items={candles} />
-      </motion.section>
-
-      <motion.section 
-        className="w-full bg-white py-12 px-6 md:px-12 lg:px-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <motion.h2
-          className="text-2xl md:text-3xl font-semibold text-center mb-10 text-gray-700" 
-          style={{ fontFamily: 'fairplaybold' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          Tote Bags
-        </motion.h2>
-        <ProductGrid items={totes} />
-      </motion.section>
+      {/* Empty State */}
+      {!isLoading && mugs.length === 0 && candles.length === 0 && totes.length === 0 && tshirt.length === 0 && caps.length === 0 && hoodies.length === 0 && (
+        <div className="w-full py-20 text-center">
+          <p className="text-gray-500 text-lg">No products available at the moment.</p>
+          <p className="text-gray-400 text-sm mt-2">Please check back later!</p>
+        </div>
+      )}
     </div>
   );
 }

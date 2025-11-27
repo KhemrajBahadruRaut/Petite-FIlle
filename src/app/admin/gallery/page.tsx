@@ -263,7 +263,8 @@ export default function AdminGalleryPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-2">
+          
+          <h1 className="text-3xl lg:text-2xl font-bold text-slate-800 mb-2">
             Gallery Management
           </h1>
           <p className="text-slate-600">Organize and manage your gallery collections with ease</p>
